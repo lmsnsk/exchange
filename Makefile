@@ -17,8 +17,8 @@ s21_math.a:
 	@rm -rf *.o
 
 tests: clean s21_math.a
-	@$(CC) $(CHECKFLAGS) $(GLFLAGS) source/s21_test_abs.c -L. s21_math.a -o s21_test_abs $(FLAGSADV)
-	@$(CC) $(CHECKFLAGS) $(GLFLAGS) source/s21_test_fabs.c -L. s21_math.a -o s21_test_fabs $(FLAGSADV)
+	@$(CC) $(CHECKFLAGS) $(GLFLAGS) tests/s21_test_abs.c -L. s21_math.a -o s21_test_abs $(FLAGSADV)
+	@$(CC) $(CHECKFLAGS) $(GLFLAGS) tests/s21_test_fabs.c -L. s21_math.a -o s21_test_fabs $(FLAGSADV)
 
 run_tests:
 	@./s21_test_abs
