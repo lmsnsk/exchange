@@ -16,18 +16,23 @@ s21_math.a:
 	@ar rcs $(LIB) $(FILES_O)
 	@rm -rf *.o
 
-tests: clean s21_math.a
-	@$(CC) $(CHECKFLAGS) $(GLFLAGS) tests/s21_test_abs.c -L. s21_math.a -o s21_test_abs $(FLAGSADV)
-	@$(CC) $(CHECKFLAGS) $(GLFLAGS) tests/s21_test_fabs.c -L. s21_math.a -o s21_test_fabs $(FLAGSADV)
+test: clean s21_math.a
+	@$(CC) $(GLFLAGS) tests/s21_test_abs.c -L. s21_math.a -o s21_test_abs $(FLAGSADV)
+	@$(CC) $(GLFLAGS) tests/s21_test_fabs.c -L. s21_math.a -o s21_test_fabs $(FLAGSADV)
 
-run_tests:
+run_test:
 	@./s21_test_abs
 	@./s21_test_fabs
+
+gcov_report: test run_test
+	@lcov -t "s21_math" -o tests.info -c -d .  
+	@genhtml -o report tests.info
+	@xdg-open report/index.html
+	@make clean
 
 clean:
 	@rm -rf *.o
 	@rm -rf *.gcno
-	@rm -rf *.gcov
 	@rm -rf *.gcda
 	@rm -rf *.a
 	@rm -rf *.info
