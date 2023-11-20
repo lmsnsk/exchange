@@ -4,16 +4,18 @@
 #include "../source/s21_math.h"
 
 START_TEST(s21_test_fabs_check_1) {
-  ck_assert_int_eq(s21_fabs(-5.4548454), fabs(-5.4548454));
+  ck_assert_ldouble_eq_tol(s21_fabs(-5.4548454), fabs(-5.4548454), 1e-6);
 }
 END_TEST
 
 START_TEST(s21_test_fabs_check_2) {
-  ck_assert_int_eq(s21_fabs(5.4548454), fabs(5.4548454));
+  ck_assert_ldouble_eq_tol(s21_fabs(5.4548454), fabs(5.4548454), 1e-6);
 }
 END_TEST
 
-START_TEST(s21_test_fabs_check_3) { ck_assert_int_eq(s21_fabs(0), fabs(0)); }
+START_TEST(s21_test_fabs_check_3) {
+  ck_assert_ldouble_eq_tol(s21_fabs(0), fabs(0), 1e-6);
+}
 END_TEST
 
 Suite *s21_fabs_suit(void) {
