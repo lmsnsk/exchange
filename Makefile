@@ -22,16 +22,24 @@ test: s21_math.a
 	@$(CC) $(COVFLAG) tests/s21_test_abs.c -L. s21_math.a -o s21_test_abs $(FLAGSADV)
 	@$(CC) $(COVFLAG) tests/s21_test_fabs.c -L. s21_math.a -o s21_test_fabs $(FLAGSADV)
 	@$(CC) $(COVFLAG) tests/s21_test_floor.c -L. s21_math.a -o s21_test_floor $(FLAGSADV)
+	@$(CC) $(COVFLAG) tests/s21_test_ceil.c -L. s21_math.a -o s21_test_ceil $(FLAGSADV)
 
 run_test:
 	@./s21_test_abs
 	@./s21_test_fabs
+	@./s21_test_floor
+	@./s21_test_ceil
 
 gcov_report: clean test run_test
 	@lcov -t "s21_math" -o tests.info -c -d .  
 	@genhtml -o report tests.info
 	@xdg-open report/index.html
 	@make clean
+
+run: clean test run_test
+
+cr: 
+	@rm -rf report/
 
 clean:
 	@rm -rf *.o
