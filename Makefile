@@ -1,30 +1,33 @@
 CC=gcc
 FLAGS=-Wall -Werror -Wextra -std=c11
 FILES_C=source/*.c
-FILES_O=s21_abs.o s21_fabs.o
+FILES_O=*.o
 LIB=s21_math.a
-CHECKFLAGS=$(shell pkg-config --cflags --libs check)
-GCOVFLAGS=-fprofile-arcs -ftest-coverage
-FLAGSADV=-pthread -lcheck_pic -pthread -lrt -lm -lsubunit
-GLFLAGS=--coverage
-GCOVFLAGS=-fprofile-arcs -ftest-coverage
+FLAGSADV= -lcheck_pic -pthread -lrt -lm -lsubunit
+COVFLAG=--coverage
 
 all: s21_math.a
 
-s21_math.a: 
-	@$(CC) $(FLAGS) -c $(FILES_C)
+library:
+	@ar rcs $(LIB) $(FILES_O)
+
+o_files:
+	@$(CC) $(FLAGS) $(COVFLAG) -c $(FILES_C)
+
+s21_math.a: o_files
 	@ar rcs $(LIB) $(FILES_O)
 	@rm -rf *.o
 
-test: clean s21_math.a
-	@$(CC) $(GLFLAGS) tests/s21_test_abs.c -L. s21_math.a -o s21_test_abs $(FLAGSADV)
-	@$(CC) $(GLFLAGS) tests/s21_test_fabs.c -L. s21_math.a -o s21_test_fabs $(FLAGSADV)
+test: s21_math.a
+	@$(CC) $(COVFLAG) tests/s21_test_abs.c -L. s21_math.a -o s21_test_abs $(FLAGSADV)
+	@$(CC) $(COVFLAG) tests/s21_test_fabs.c -L. s21_math.a -o s21_test_fabs $(FLAGSADV)
+	@$(CC) $(COVFLAG) tests/s21_test_floor.c -L. s21_math.a -o s21_test_floor $(FLAGSADV)
 
 run_test:
 	@./s21_test_abs
 	@./s21_test_fabs
 
-gcov_report: test run_test
+gcov_report: clean test run_test
 	@lcov -t "s21_math" -o tests.info -c -d .  
 	@genhtml -o report tests.info
 	@xdg-open report/index.html
