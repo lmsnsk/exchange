@@ -1,6 +1,6 @@
 CC=gcc
 FLAGS=-Wall -Werror -Wextra -std=c11
-FILES_C=s21_abs.c s21_fabs.c
+FILES_C=source/*.c
 FILES_O=s21_abs.o s21_fabs.o
 LIB=s21_math.a
 CHECKFLAGS=$(shell pkg-config --cflags --libs check)
@@ -17,8 +17,8 @@ s21_math.a:
 	@rm -rf *.o
 
 tests: clean s21_math.a
-	@$(CC) $(CHECKFLAGS) $(GLFLAGS) s21_test_abs.c -L. s21_math.a -o s21_test_abs $(FLAGSADV)
-	@$(CC) $(CHECKFLAGS) $(GLFLAGS) s21_test_fabs.c -L. s21_math.a -o s21_test_fabs $(FLAGSADV)
+	@$(CC) $(CHECKFLAGS) $(GLFLAGS) source/s21_test_abs.c -L. s21_math.a -o s21_test_abs $(FLAGSADV)
+	@$(CC) $(CHECKFLAGS) $(GLFLAGS) source/s21_test_fabs.c -L. s21_math.a -o s21_test_fabs $(FLAGSADV)
 
 run_tests:
 	@./s21_test_abs
@@ -31,3 +31,4 @@ clean:
 	@rm -rf *.gcda
 	@rm -rf *.a
 	@rm -rf *.info
+	@rm -rf s21*
