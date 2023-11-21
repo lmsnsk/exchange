@@ -44,5 +44,7 @@ int main(void) {
   failed_count = srunner_ntests_failed(suite_runner);
   srunner_free(suite_runner);
 
+  printf("------------------------------------------\n\n");
+
   return failed_count != 0 ? EXIT_FAILURE : EXIT_SUCCESS;
 }

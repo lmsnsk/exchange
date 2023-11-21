@@ -18,7 +18,7 @@ s21_math.a: o_files
 	@ar rcs $(LIB) $(FILES_O)
 	@rm -rf *.o
 
-test: s21_math.a
+test: clean s21_math.a
 	@$(CC) $(COVFLAG) tests/s21_test_abs.c -L. s21_math.a -o s21_test_abs $(FLAGSADV)
 	@$(CC) $(COVFLAG) tests/s21_test_fabs.c -L. s21_math.a -o s21_test_fabs $(FLAGSADV)
 	@$(CC) $(COVFLAG) tests/s21_test_floor.c -L. s21_math.a -o s21_test_floor $(FLAGSADV)
@@ -37,6 +37,8 @@ gcov_report: clean test run_test
 	@make clean
 
 run: clean test run_test
+
+rep: gcov_report
 
 cr: 
 	@rm -rf report/
