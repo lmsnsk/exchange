@@ -19,16 +19,20 @@ s21_math.a: o_files
 	@rm -rf *.o
 
 test: clean s21_math.a
-	@$(CC) $(COVFLAG) tests/s21_test_abs.c -L. s21_math.a -o s21_test_abs $(FLAGSADV)
-	@$(CC) $(COVFLAG) tests/s21_test_fabs.c -L. s21_math.a -o s21_test_fabs $(FLAGSADV)
-	@$(CC) $(COVFLAG) tests/s21_test_floor.c -L. s21_math.a -o s21_test_floor $(FLAGSADV)
-	@$(CC) $(COVFLAG) tests/s21_test_ceil.c -L. s21_math.a -o s21_test_ceil $(FLAGSADV)
+	@$(CC) $(COVFLAG) tests/s21_test_abs.c -L. $(LIB) -o s21_test_abs $(FLAGSADV)
+	@$(CC) $(COVFLAG) tests/s21_test_fabs.c -L. $(LIB) -o s21_test_fabs $(FLAGSADV)
+	@$(CC) $(COVFLAG) tests/s21_test_floor.c -L. $(LIB) -o s21_test_floor $(FLAGSADV)
+	@$(CC) $(COVFLAG) tests/s21_test_ceil.c -L. $(LIB) -o s21_test_ceil $(FLAGSADV)
+	@$(CC) $(COVFLAG) tests/s21_test_fmod.c -L. $(LIB) -o s21_test_fmod $(FLAGSADV)
+	@$(CC) $(COVFLAG) tests/s21_test_sin.c -L. $(LIB) -o s21_test_sin $(FLAGSADV)
 
 run_test:
 	@./s21_test_abs
 	@./s21_test_fabs
 	@./s21_test_floor
 	@./s21_test_ceil
+	@./s21_test_fmod
+	@./s21_test_sin
 
 gcov_report: clean test run_test
 	@lcov -t "s21_math" -o tests.info -c -d .  

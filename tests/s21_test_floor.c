@@ -6,14 +6,14 @@
 START_TEST(s21_test_floor_check_1) {
   double val1 = -5.495414;
   double val2 = 4.957778;
-  ck_assert_ldouble_eq_tol(s21_floor(val1), floor(val1), 1e-06);
-  ck_assert_ldouble_eq_tol(s21_floor(val2), floor(val2), 1e-06);
+  ck_assert_ldouble_eq_tol(s21_floor(val1), floor(val1), 1e-6);
+  ck_assert_ldouble_eq_tol(s21_floor(val2), floor(val2), 1e-6);
 }
 END_TEST
 
 START_TEST(s21_test_floor_check_2) {
   for (double i = -1.01; i <= 1.01; i += 0.01) {
-    ck_assert_ldouble_eq_tol(s21_floor(i), floor(i), 1e-06);
+    ck_assert_ldouble_eq_tol(s21_floor(i), floor(i), 1e-6);
   }
 }
 END_TEST
