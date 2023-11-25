@@ -1,5 +1,6 @@
 #ifndef S21_STRING
 #define S21_STRING
+#include <stdio.h>
 #include <stdlib.h>
 
 size_t s21_strlen(const char* str);

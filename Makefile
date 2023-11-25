@@ -24,7 +24,7 @@ s21_string.a: o_files
 	@rm -rf *.o
 
 test: clean s21_string.a
-	@$(CC) $(COVFLAG) tests/s21_test_abs.c -L. $(LIB) -o s21_tests $(TESTFLAGS)
+	@$(CC) $(COVFLAG) tests/s21_test_string.c -L. $(LIB) -o s21_tests $(TESTFLAGS)
 
 
 run_test:

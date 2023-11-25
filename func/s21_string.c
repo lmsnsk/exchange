@@ -4,13 +4,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-int main() {
-  char *str1 = "Hell";
-  // char *str2 = "ll";
-  int a = memcmp(str1, "Hello", 8);
-  printf("%d\n", a);
-  return 0;
-}
+// int main() {
+//   char *str1 = "Hell";
+//   // char *str2 = "ll";
+//   int a = memcmp(str1, "Hello", 8);
+//   printf("%d\n", a);
+//   return 0;
+// }
 
 void *s21_memchr(const void *str, int c, size_t n) {
   unsigned char *tmp = (unsigned char *)str;
