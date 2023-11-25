@@ -91,6 +91,25 @@ Suite *s21_memset_suit(void) {
   return suite;
 }
 
+// STRCAT TEST
+START_TEST(s21_test_strcat_check) {
+  char str1[100] = "Hello, how are you?";
+  char str2[15] = "I am ok!";
+
+  ck_assert_str_eq(s21_strcat(str1, str2), strcat(str1, str2));
+  ck_assert_str_eq(s21_strcat(str1, str2), strcat(str1, str2));
+  ck_assert_str_eq(s21_strcat(str1, str2), strcat(str1, str2));
+}
+END_TEST
+
+Suite *s21_strcat_suit(void) {
+  Suite *suite = suite_create("s21_strcat");
+  TCase *tcase_strcat = tcase_create("s21_strcat");
+  tcase_add_test(tcase_strcat, s21_test_strcat_check);
+  suite_add_tcase(suite, tcase_strcat);
+  return suite;
+}
+
 // MAIN PART
 int string_srunner(Suite *suite) {
   int failed_count = 0;
@@ -108,12 +127,15 @@ int main(void) {
   Suite *suite_memcmp = s21_memcmp_suit();
   Suite *suite_memcpy = s21_memcpy_suit();
   Suite *suite_memset = s21_memset_suit();
+  Suite *suite_strcat = s21_strcat_suit();
   int failed_memchr = string_srunner(suite_memchr);
   int failed_memcmp = string_srunner(suite_memcmp);
   int failed_memcpy = string_srunner(suite_memcpy);
   int failed_memset = string_srunner(suite_memset);
+  int failed_strcat = string_srunner(suite_strcat);
 
-  if (failed_memchr || failed_memcmp || failed_memcpy || failed_memset)
+  if (failed_memchr || failed_memcmp || failed_memcpy || failed_memset ||
+      failed_strcat)
     failed_count = 1;
 
   return failed_count != 0 ? EXIT_FAILURE : EXIT_SUCCESS;

@@ -51,6 +51,15 @@ void *s21_memset(void *str, int c, size_t n) {
   return str;
 }
 
+char *s21_strcat(char *str1, const char *str2) {
+  char *ptr = str1 + s21_strlen(str1);
+  while (*str2 != '\0') {
+    *ptr++ = *str2++;
+  }
+  *ptr = '\0';
+  return str1;
+}
+
 ///////////////////////////////////////
 
 size_t s21_strlen(const char *str) {
@@ -76,16 +85,6 @@ char *s21_strcpy(char *str1, const char *str2) {
   }
   *str1 = '\0';
   return ptr;
-}
-
-char *s21_strcat(char *str1, const char *str2) {
-  char *ptr = str1 + s21_strlen(str1);
-
-  while (*str2 != '\0') {
-    *ptr++ = *str2++;
-  }
-  *ptr = '\0';
-  return str1;
 }
 
 char *s21_strchr(const char *str, int c) {
