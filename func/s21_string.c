@@ -5,10 +5,8 @@
 #include <string.h>
 
 // int main() {
-//   char *str1 = "Hell";
-//   // char *str2 = "ll";
-//   int a = memcmp(str1, "Hello", 8);
-//   printf("%d\n", a);
+//   char str1[100] = "qwertyu";
+//   printf("%s\n", (char *)s21_memset(str1, '!', 0));
 //   return 0;
 // }
 
@@ -34,6 +32,23 @@ int s21_memcmp(const void *str1, const void *str2, size_t n) {
     tmp1++, tmp2++;
   }
   return *tmp1 - *tmp2;
+}
+
+void *s21_memcpy(void *dest, const void *src, size_t n) {
+  char *tmp1 = (char *)dest;
+  char *tmp2 = (char *)src;
+  for (size_t i = 0; i < n; i++) {
+    *tmp1++ = *tmp2++;
+  }
+  return dest;
+}
+
+void *s21_memset(void *str, int c, size_t n) {
+  unsigned char *tmp = (unsigned char *)str;
+  for (size_t i = 0; i < n; i++) {
+    *tmp++ = (unsigned char)c;
+  }
+  return str;
 }
 
 ///////////////////////////////////////
