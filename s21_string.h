@@ -18,5 +18,7 @@ void* s21_memset(void* str, int c, size_t n);
 void* s21_to_lower(const char* str);
 void* s21_to_upper(const char* str);
 void* s21_insert(const char* src, const char* str, size_t start_index);
+void* s21_trim(const char* src, const char* trim_chars);
+void find_space_limits(const char* src, size_t l1, int* start, int* end);
 
 #endif

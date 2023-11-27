@@ -5,13 +5,71 @@
 #include <string.h>
 
 int main() {
-  char src[100] = "Horosiy denn";
-  char str[100] = "zaebis ";
-  size_t ind = 13;
-  void *tmp = s21_insert(src, str, ind);
-  printf("%p\n", tmp);
+  char src[100] = "   Horosiydenn ";
+  char str[100] = "";
+  // size_t ind = 13;
+  void *tmp = s21_trim(src, str);
+  printf("%s\n", (char *)tmp);
   if (tmp) free(tmp);
   return 0;
+}
+
+void find_space_limits(const char *src, size_t l1, int *start, int *end) {
+  for (int i = 0; i < (int)l1; i++) {
+    if (src[i] == ' ')
+      *start += 1;
+    else
+      break;
+  }
+  for (int i = ((int)l1 - 1); i >= 0; i--) {
+    if (src[i] == ' ')
+      *end += 1;
+    else
+      break;
+  }
+}
+
+void *s21_trim(const char *src, const char *trim_chars) {
+  char *new_string = S21_NULL;
+  if (src && trim_chars) {
+    size_t l1 = s21_strlen(src);
+    size_t l2 = s21_strlen(trim_chars);
+    int start_count = 0, end_count = 0;
+    find_space_limits(src, l1, &start_count, &end_count);
+
+    int match_start = 0, match_end = 0;
+    for (int i = start_count; i < ((int)l1 - end_count); i++) {
+      for (int j = 0; j < (int)l2; j++) {
+        if (src[i] == trim_chars[j]) {
+          match_start = 1;
+          break;
+        }
+      }
+      if (match_start)
+        start_count++;
+      else
+        break;
+    }
+    for (int i = ((int)l1 - end_count - 1); i >= start_count; i--) {
+      for (int j = 0; j < (int)l2; j++) {
+        if (src[i] == trim_chars[j]) {
+          match_end = 1;
+          break;
+        }
+      }
+      if (match_end)
+        end_count++;
+      else
+        break;
+    }
+    if ((end_count + start_count) < (int)l1) {
+      new_string = calloc(l1 + 1, 1);
+      for (int i = start_count; i < (int)l1 - end_count; i++) {
+        new_string[i - start_count] = src[i];
+      }
+    }
+  }
+  return (void *)new_string;
 }
 
 void *s21_memchr(const void *str, int c, size_t n) {
