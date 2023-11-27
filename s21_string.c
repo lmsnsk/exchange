@@ -5,11 +5,11 @@
 #include <string.h>
 
 int main() {
-  char src[100] = "   Horosiydenn ";
-  char str[100] = "";
+  char src[100] = "   Hor osi  ydenn ";
+  char str[100] = "HH";
   // size_t ind = 13;
   void *tmp = s21_trim(src, str);
-  printf("%s\n", (char *)tmp);
+  printf("%s__\n", (char *)tmp);
   if (tmp) free(tmp);
   return 0;
 }
@@ -29,6 +29,37 @@ void find_space_limits(const char *src, size_t l1, int *start, int *end) {
   }
 }
 
+void match_counts(int *start_count, int *end_count, size_t l1, size_t l2,
+                  const char *src, const char *trim_chars) {
+  int match_start = 0, match_end = 0;
+  for (int i = *start_count; i < ((int)l1 - *end_count); i++) {
+    for (int j = 0; j < (int)l2; j++) {
+      if (src[i] == trim_chars[j]) {
+        match_start = 1;
+        break;
+      }
+    }
+    if (match_start) {
+      *start_count += 1;
+      match_start = 0;
+    } else
+      break;
+  }
+  for (int i = ((int)l1 - *end_count - 1); i >= *start_count; i--) {
+    for (int j = 0; j < (int)l2; j++) {
+      if (src[i] == trim_chars[j]) {
+        match_end = 1;
+        break;
+      }
+    }
+    if (match_end) {
+      *end_count += 1;
+      match_end = 0;
+    } else
+      break;
+  }
+}
+
 void *s21_trim(const char *src, const char *trim_chars) {
   char *new_string = S21_NULL;
   if (src && trim_chars) {
@@ -36,32 +67,9 @@ void *s21_trim(const char *src, const char *trim_chars) {
     size_t l2 = s21_strlen(trim_chars);
     int start_count = 0, end_count = 0;
     find_space_limits(src, l1, &start_count, &end_count);
+    match_counts(&start_count, &end_count, l1, l2, src, trim_chars);
+    printf("%d   %d\n", start_count, end_count);  // !!!!!!!!!!!!!
 
-    int match_start = 0, match_end = 0;
-    for (int i = start_count; i < ((int)l1 - end_count); i++) {
-      for (int j = 0; j < (int)l2; j++) {
-        if (src[i] == trim_chars[j]) {
-          match_start = 1;
-          break;
-        }
-      }
-      if (match_start)
-        start_count++;
-      else
-        break;
-    }
-    for (int i = ((int)l1 - end_count - 1); i >= start_count; i--) {
-      for (int j = 0; j < (int)l2; j++) {
-        if (src[i] == trim_chars[j]) {
-          match_end = 1;
-          break;
-        }
-      }
-      if (match_end)
-        end_count++;
-      else
-        break;
-    }
     if ((end_count + start_count) < (int)l1) {
       new_string = calloc(l1 + 1, 1);
       for (int i = start_count; i < (int)l1 - end_count; i++) {
