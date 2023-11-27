@@ -1,62 +1,55 @@
-CC=gcc
 FLAGS=-Wall -Werror -Wextra -std=c11
-FILES_C=func/*.c
-FILES_O=*.o
-LIB=s21_string.a
-COVFLAG=--coverage
+CC=gcc $(FLAGS)
+FILE=s21_string
+FILETEST=tests
+FILEREPORT=s21_test_report
+FILETESTO=s21_test
+DIRREPORT=report
+LIB=$(FILE).a
+COVFLAG=-fprofile-arcs -ftest-coverage
 
 OS = $(shell uname)
+
 ifeq ($(OS), Darwin)
-TESTFLAGS=-pthread -lm -lcheck
-OPEN_CMD=open
+	TESTFLAGS=-pthread -lm -lcheck
+	OPEN_CMD=open
 else
-TESTFLAGS=-pthread -lcheck_pic -lrt -lm -lsubunit
-OPEN_CMD=xdg-open
+	TESTFLAGS=-pthread -lcheck_pic -lrt -lm -lsubunit
+	OPEN_CMD=xdg-open
 endif
 
-all: s21_string.a
+all: clean $(FILE).a test gcov_report
 
 o_files:
-	@$(CC) $(FLAGS) $(COVFLAG) -c $(FILES_C)
+	$(CC) -c $(FILE).c
 
-s21_string.a: o_files
-	@ar rcs $(LIB) $(FILES_O)
-	@rm -rf *.o
+$(FILE).a: o_files
+	ar rcs $(LIB) $(FILE).o
 
-test: clean s21_string.a
-	@$(CC) $(COVFLAG) tests/s21_test_string.c -L. $(LIB) -o s21_tests $(TESTFLAGS)
+test: $(FILE).a
+	$(CC) $(FILETEST).c $(FILE).a -o $(FILETESTO) $(TESTFLAGS)
+	./$(FILETESTO)
 
-
-run_test:
-	@./s21_tests
-
-gcov_report: clean test run_test
-	@lcov -t "s21_string" -o tests.info -c -d .  
-	@genhtml -o report tests.info
-	@$(OPEN_CMD) report/index.html
-
-run: clean test run_test
+gcov_report: $(FILE).a
+	$(CC) $(COVFLAG) $(FILETEST).c $(FILE).c -o $(FILEREPORT) $(TESTFLAGS)
+	./$(FILEREPORT)
+	lcov -t "$(FILE)" -o $(FILETEST).info -c -d .  
+	genhtml -o $(DIRREPORT) $(FILETEST).info
+	$(OPEN_CMD) $(DIRREPORT)/index.html
 
 rep: gcov_report
 
-cr: 
-	@rm -rf report/
-
-cpp:
-	@cppcheck --enable=all --suppress=missingIncludeSystem func/*.c func/*.h tests/*.c
-
 clean:
-	@rm -rf *.o
-	@rm -rf *.gcno
-	@rm -rf *.gcda
-	@rm -rf *.a
-	@rm -rf *.info
-	@rm -rf s21*
+	rm -rf *.o *.a *.gcno *.gcda *.info $(DIRREPORT) $(FILETESTO) $(FILEREPORT)
+
+#style
+cpp:
+	cppcheck --enable=all --suppress=missingIncludeSystem *.c *.h
 
 clang:
-	@cp ../materials/linters/.clang-format .clang-format
-	@clang-format -n func/*.c func/*.h
-	@clang-format -n tests/*.c 
-	@clang-format -i func/*.c func/*.h
-	@clang-format -i tests/*.c 
-	@rm -rf .clang-format
+	cp ../materials/linters/.clang-format .clang-format && \
+	clang-format -n *.c *.h && \
+	clang-format -i *.c *.h && \
+	rm -rf .clang-format
+
+check: cpp clang
