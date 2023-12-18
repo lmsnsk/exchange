@@ -10,5 +10,6 @@ typedef struct {
 
 void s21_decimal_zero(s21_decimal *dst);
 int s21_from_int_to_decimal(int src, s21_decimal *dst);
+void s21_invert_sign(s21_decimal *dst);
 
 #endif
