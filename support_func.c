@@ -187,7 +187,7 @@ int from_big_decimal_to_decimal(big_dec value, s21_decimal *result) {
       error = big_get_sign(value) ? 2 : 1;
       break;
     }
-  }
+  }  ///////////////////////////////////////////////// need fix!!!!!!
   if (!error) {
     for (int i = 0; i < 3; i++) result->bits[i] = value.bits[i];
     result->bits[3] = value.bits[BIG_SIZE - 1];

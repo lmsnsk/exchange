@@ -9,8 +9,8 @@ int main() {
   s21_decimal example2;
   decimal_zero(&example1);
   decimal_zero(&example2);
-  s21_from_int_to_decimal(2, &example1);
-  s21_from_int_to_decimal(2, &example2);
+  s21_from_int_to_decimal(-258, &example1);
+  s21_from_int_to_decimal(258, &example2);
 
   // example.bits[0] = 10;
   // example.bits[1] = 10;
@@ -24,20 +24,16 @@ int main() {
   ///////////
   // big_dec big_example1 = from_decimal_to_big_decimal(example1);
   // big_dec big_example2 = from_decimal_to_big_decimal(example2);
-  int error = s21_add(example1, example2, &result);
+  int error = s21_sub(example1, example2, &result);
   if (!error) {
-    // print_dec(result);
-    printf("OK!");
+    print_dec(result);
+    // printf("OK!");
   } else {
     printf("Error: %d!\n", error);
   }
 
-  printf("\n>    %d\n", s21_is_greater(example1, example2));
-  printf("\n>=   %d\n", s21_is_greater_or_equal(example1, example2));
-  printf("\n<    %d\n", s21_is_less(example1, example2));
-  printf("\n<=   %d\n", s21_is_less_or_equal(example1, example2));
-  printf("\n==   %d\n", s21_is_equal(example1, example2));
-  printf("\n!=   %d\n", s21_is_not_equal(example1, example2));
+  // s21_floor(example1, &example2);
+  // print_dec(example2);
   // printf("%d\n", (int)(413 + 0.000000500));
   return 0;
 }
