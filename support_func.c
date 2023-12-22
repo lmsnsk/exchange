@@ -182,7 +182,9 @@ big_dec from_decimal_to_big_decimal(s21_decimal value) {
 
 int from_big_decimal_to_decimal(big_dec value, s21_decimal *result) {
   int error = 0;
+  // int scale = big_get_scale(value);
   for (int i = 3; i < BIG_SIZE - 1; i++) {
+    // int check = value.bits[i] / pow(10, scale);
     if (value.bits[i] != 0) {
       error = big_get_sign(value) ? 2 : 1;
       break;
@@ -206,25 +208,15 @@ void shift_left(s21_decimal *dst, int shift) {
 }
 
 void big_shift_left(big_dec *dst, int shift) {
-  unsigned mem = 0;
-  for (int i = 0; i < BIG_SIZE - 1; i++) {
-    unsigned tmp = dst->bits[i];
-    dst->bits[i] <<= shift;
-    dst->bits[i] |= mem;  /// ?
-    mem = tmp >> (32 - shift);
+  if (shift) {
+    unsigned mem = 0;
+    for (int i = 0; i < BIG_SIZE - 1; i++) {
+      unsigned tmp = dst->bits[i];
+      dst->bits[i] <<= shift;
+      dst->bits[i] |= mem;  /// ?
+      mem = tmp >> (32 - shift);
+    }
   }
-}
-
-void normalization(s21_decimal *dst, int diff) {
-  unsigned scale = get_scale(*dst);
-  for (int i = 0; i < diff; i++) {
-    s21_decimal tmp1 = *dst;
-    s21_decimal tmp2 = *dst;
-    shift_left(&tmp1, 1);
-    shift_left(&tmp2, 3);
-    summ(tmp1, tmp2, dst);
-  }
-  set_scale(dst, scale + diff);
 }
 
 void big_normalization(big_dec *dst, int diff) {

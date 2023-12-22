@@ -46,19 +46,23 @@ void summ(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 void big_summ(big_dec value_1, big_dec value_2, big_dec *result);
 void diff(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 void big_diff(big_dec value_1, big_dec value_2, big_dec *result);
-void normalization(s21_decimal *dst, int diff);
 void big_normalization(big_dec *dst, int diff);
 
 // --- arithmetic functions --- //
+int add_and_sub_core(s21_decimal value_1, s21_decimal value_2,
+                     s21_decimal *result, int check_add_or_sub);
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 
 // --- transform functions --- //
 int s21_from_int_to_decimal(int src, s21_decimal *dst);
 
 // --- another functions --- //
-int s21_negate(s21_decimal value, s21_decimal *result);
 int s21_floor(s21_decimal value, s21_decimal *result);
+// int s21_round(s21_decimal value, s21_decimal *result);
+int s21_truncate(s21_decimal value, s21_decimal *result);
+int s21_negate(s21_decimal value, s21_decimal *result);
 
 // --- compare functions --- //
 int is_greater_or_not(s21_decimal value_1, s21_decimal value_2, int *result,
