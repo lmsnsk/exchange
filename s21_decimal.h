@@ -58,4 +58,15 @@ int s21_from_int_to_decimal(int src, s21_decimal *dst);
 // --- another functions --- //
 int s21_negate(s21_decimal value, s21_decimal *result);
 
+// --- compare functions --- //
+int is_greater_or_not(s21_decimal value_1, s21_decimal value_2, int *result,
+                      int *temp, int sign_1, int val);
+int is_equal_or_not(s21_decimal value_1, s21_decimal value_2, int val);
+int s21_is_greater(s21_decimal value_1, s21_decimal value_2);
+int s21_is_greater_or_equal(s21_decimal value_1, s21_decimal value_2);
+int s21_is_less(s21_decimal value_1, s21_decimal value_2);
+int s21_is_less_or_equal(s21_decimal value_1, s21_decimal value_2);
+int s21_is_equal(s21_decimal value_1, s21_decimal value_2);
+int s21_is_not_equal(s21_decimal value_1, s21_decimal value_2);
+
 #endif
