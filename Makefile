@@ -1,7 +1,7 @@
 FLAGS=-Wall -Werror -Wextra -std=c11
 CC=gcc $(FLAGS)
-FILE=s21_string
-FILETEST=tests
+FILE=s21_decimal
+FILETEST=tests/tests
 FILEREPORT=s21_test_report
 FILETESTO=s21_test
 DIRREPORT=report
@@ -18,13 +18,21 @@ else
 	OPEN_CMD=xdg-open
 endif
 
-all: clean $(FILE).a test gcov_report
+
+# all: clean $(FILE).a test gcov_report
+
+########################################
+all: temp
+
+temp:
+	$(CC) -fsanitize=address -g *.c $(TESTFLAGS)
+########################################
 
 o_files:
-	$(CC) -c $(FILE).c
+	$(CC) -c *.c
 
 $(FILE).a: o_files
-	ar rcs $(LIB) $(FILE).o
+	ar rcs $(LIB) *.o
 
 test: $(FILE).a
 	$(CC) $(FILETEST).c $(FILE).a -o $(FILETESTO) $(TESTFLAGS)
