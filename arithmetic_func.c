@@ -79,3 +79,21 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
   error = from_big_decimal_to_decimal(big_result, result);
   return error;
 }
+
+// int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+//   int error = 0;
+//   big_dec big_result;
+//   big_decimal_zero(&big_result);
+//   int sign_1 = get_sign(value_1);
+//   int sign_2 = get_sign(value_2);
+//   int scale_1 = get_scale(value_1);
+//   int scale_2 = get_scale(value_2);
+//   big_dec big_val_1 = from_decimal_to_big_decimal(value_1);
+//   big_dec big_val_2 = from_decimal_to_big_decimal(value_2);
+//   big_dec temp;
+
+//   do {
+//   } while (s21_is_greater(value_1, value_2));
+
+//   return error;
+// }
