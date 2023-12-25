@@ -1,4 +1,5 @@
-FLAGS=-Wall -Werror -Wextra -std=c11
+# FLAGS=-Wall -Werror -Wextra -std=c11
+FLAGS=-Wall -Wextra -std=c11
 CC=gcc $(FLAGS)
 FILE=s21_decimal
 FILETEST=tests/*

@@ -9,8 +9,8 @@ int main() {
   s21_decimal example2;
   null_decimal(&example1);
   null_decimal(&example2);
-  s21_from_int_to_decimal(25, &example1);
-  s21_from_int_to_decimal(5, &example2);
+  s21_from_int_to_decimal(20000, &example1);
+  s21_from_int_to_decimal(1000, &example2);
 
   // example.bits[0] = 10;
   // example.bits[1] = 10;
@@ -27,7 +27,7 @@ int main() {
   // big_dec big_example2 = from_decimal_to_big_decimal(example2);
   int error = s21_div(example1, example2, &result);
   if (!error) {
-    print_dec(result);
+    // print_dec(result);
     // printf("OK!");
   } else {
     printf("Error: %d!\n", error);

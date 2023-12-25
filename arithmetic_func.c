@@ -89,35 +89,51 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
   return error;
 }
 
+// big_dec big_reverse(big_dec value, int limit) {
+//   big_dec temp;
+//   big_null_decimal(&temp);
+//   for (int i = 0; i < limit; i++) {
+//     int bit = big_get_bit(value, i);
+//     big_set_bit(&temp, (limit - 1) - i, bit);
+//   }
+//   return temp;
+// }
+
 void big_div(big_dec *big_val_1, big_dec *big_val_2, big_dec *big_result,
              big_dec ten_big_decimal) {
   big_dec remainder = *big_val_1;
-  for (int i = 0; !big_is_decimal_zero(remainder); i++) {
-    for (int l = 0; l < i; l++) {
-      remainder = big_mul(remainder, ten_big_decimal);
-    }
-    big_dec temp;
-    big_dec temp_1 = *big_val_2;
-    int count = 0, j = 0;
-    do {
-      count++;
-      temp = temp_1;
-      big_shift_left(&temp_1, 1);
-    } while (big_is_greater(*big_val_1, temp_1));
 
-    while (count--) {
-      temp = *big_val_2;
-      for (int k = 0; k < count; k++) big_shift_left(&temp, 1);
-
-      if (big_is_greater(temp, remainder)) {
-        big_shift_left(big_result, 1);
-      } else {
-        big_diff(*big_val_1, temp, &remainder);
-        big_set_bit(big_result, j, ONE);
-      }
-      j++;
-    }
+  // for (int i = 0; !big_is_decimal_zero(remainder); i++) {
+  int i = 0;
+  for (int l = 0; l < i; l++) {
+    remainder = big_mul(remainder, ten_big_decimal);
   }
+  big_dec temp = *big_val_2;
+  int count = -1;
+  do {
+    count++;
+    big_shift_left(&temp, 1);
+  } while (big_is_greater(remainder, temp) >= 0);
+
+  // printf("%d\n", 0b1111101000);
+
+  while (count + 1) {
+    temp = *big_val_2;
+    for (int k = 0; k < count; k++) big_shift_left(&temp, 1);
+    // print_big_dec(remainder);
+
+    if (big_is_greater(temp, remainder) > 0) {
+      big_shift_left(big_result, 1);
+      printf("0\n");
+    } else {
+      big_diff(remainder, temp, &remainder);
+      big_shift_left(big_result, 1);
+      big_set_bit(big_result, 0, ONE);
+      printf("1\n");
+    }
+    count--;
+  }
+  // }
 }
 
 int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
@@ -125,7 +141,7 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
   null_decimal(result);
   if (is_decimal_zero(value_2)) error = 3;
 
-  if (error || is_decimal_zero(value_1)) {
+  if (!error && !is_decimal_zero(value_1)) {
     big_dec big_result;
     s21_decimal ten_decimal;
     big_null_decimal(&big_result);
@@ -141,22 +157,24 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     s21_from_int_to_decimal(10, &ten_decimal);
     big_dec ten_big_decimal = from_decimal_to_big_decimal(ten_decimal);
 
-    while (s21_is_less(value_1, value_2)) {
+    while (big_is_greater(big_val_1, big_val_2) < 0) {
       big_val_1 = big_mul(big_val_1, ten_big_decimal);
       scale_1++;
     }
 
-    if (s21_is_not_equal(value_1, value_2)) {
+    if (big_is_greater(big_val_1, big_val_2)) {
       big_div(&big_val_1, &big_val_2, &big_result, ten_big_decimal);
     } else {
       big_result.bits[0] = 1;
     }
+
     if (sign_1 != sign_2) big_invert_sign(&big_result);
     int res_scale = scale_1 - scale_2;
     while (res_scale < 0) {
       big_result = big_mul(big_result, ten_big_decimal);
       res_scale++;
     }
+    big_set_scale(&big_result, res_scale);
     error = from_big_decimal_to_decimal(big_result, result);
   }
   return error;

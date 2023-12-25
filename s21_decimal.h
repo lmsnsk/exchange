@@ -56,6 +56,7 @@ int add_and_sub_core(s21_decimal value_1, s21_decimal value_2,
 big_dec big_mul(big_dec big_val_1, big_dec big_val_2);
 void big_div(big_dec *big_val_1, big_dec *big_val_2, big_dec *big_result,
              big_dec ten_big_decimal);
+big_dec big_reverse(big_dec value, int limit);
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
