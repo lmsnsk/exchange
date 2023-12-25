@@ -1,17 +1,33 @@
 #include "s21_decimal.h"
 
 // Обнуляет весь децимал
-void decimal_zero(s21_decimal *dst) {
+void null_decimal(s21_decimal *dst) {
   for (int i = 0; i < 4; i++) dst->bits[i] = 0;
 }
 
-void big_decimal_zero(big_dec *dst) {
+void big_null_decimal(big_dec *dst) {
   for (int i = 0; i < BIG_SIZE; i++) dst->bits[i] = 0;
+}
+
+int is_decimal_zero(s21_decimal value) {
+  int is_zero = 1;
+  for (int i = 0; i < 3; i++)
+    if (value.bits[i] != 0) is_zero = 0;
+  return is_zero;
+}
+
+int big_is_decimal_zero(big_dec value) {
+  int is_zero = 1;
+  for (int i = 0; i < BIG_SIZE - 1; i++)
+    if (value.bits[i] != 0) is_zero = 0;
+  return is_zero;
 }
 
 int get_sign(s21_decimal value) { return get_bit(value, 127); }
 
-int big_get_sign(big_dec value) { return big_get_bit(value, 255); }
+int big_get_sign(big_dec value) {
+  return big_get_bit(value, BIG_SIZE * 32 - 1);
+}
 
 void invert_sign(s21_decimal *dst) {
   int sign = get_sign(*dst);

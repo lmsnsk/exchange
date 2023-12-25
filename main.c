@@ -7,15 +7,16 @@ int main() {
   s21_decimal result;
   s21_decimal example1;
   s21_decimal example2;
-  decimal_zero(&example1);
-  decimal_zero(&example2);
-  s21_from_int_to_decimal(-5, &example1);
-  s21_from_int_to_decimal(49, &example2);
+  null_decimal(&example1);
+  null_decimal(&example2);
+  s21_from_int_to_decimal(25, &example1);
+  s21_from_int_to_decimal(5, &example2);
 
   // example.bits[0] = 10;
   // example.bits[1] = 10;
   // example.bits[2] = 10;
-  // example.bits[3] = 23;
+  // example1.bits[2] = 400000000;
+  // example2.bits[2] = 400000000;
   // printf("%x\n", 0b00000000111111110000000000000000);
 
   set_scale(&example1, 0);
@@ -24,7 +25,7 @@ int main() {
   ///////////
   // big_dec big_example1 = from_decimal_to_big_decimal(example1);
   // big_dec big_example2 = from_decimal_to_big_decimal(example2);
-  int error = s21_mul(example1, example2, &result);
+  int error = s21_div(example1, example2, &result);
   if (!error) {
     print_dec(result);
     // printf("OK!");

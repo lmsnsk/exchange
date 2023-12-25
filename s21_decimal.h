@@ -22,8 +22,10 @@ void print_dec(s21_decimal dec);
 void print_big_dec(big_dec dec);
 
 // --- support functions --- //
-void decimal_zero(s21_decimal *dst);
-void big_decimal_zero(big_dec *dst);
+void null_decimal(s21_decimal *dst);
+void big_null_decimal(big_dec *dst);
+int is_decimal_zero(s21_decimal value);
+int big_is_decimal_zero(big_dec value);
 int get_sign(s21_decimal value);
 int big_get_sign(big_dec value);
 void invert_sign(s21_decimal *dst);
@@ -51,6 +53,9 @@ void big_normalization(big_dec *dst, int diff);
 // --- arithmetic functions --- //
 int add_and_sub_core(s21_decimal value_1, s21_decimal value_2,
                      s21_decimal *result, int check_add_or_sub);
+big_dec big_mul(big_dec big_val_1, big_dec big_val_2);
+void big_div(big_dec *big_val_1, big_dec *big_val_2, big_dec *big_result,
+             big_dec ten_big_decimal);
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
@@ -66,6 +71,7 @@ int s21_truncate(s21_decimal value, s21_decimal *result);
 int s21_negate(s21_decimal value, s21_decimal *result);
 
 // --- compare functions --- //
+int big_is_greater(big_dec value_1, big_dec value_2);
 int is_greater_or_not(s21_decimal value_1, s21_decimal value_2, int *result,
                       int *temp, int sign_1, int val);
 int is_equal_or_not(s21_decimal value_1, s21_decimal value_2, int val);

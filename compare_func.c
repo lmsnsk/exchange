@@ -1,5 +1,14 @@
 #include "s21_decimal.h"
 
+int big_is_greater(big_dec value_1, big_dec value_2) {
+  int compare = 0;
+  for (int i = (BIG_SIZE - 1) * 32 - 1; i >= 0; i--) {
+    compare = big_get_bit(value_1, i) - big_get_bit(value_2, i);
+    if (compare) break;
+  }
+  return compare;
+}
+
 int is_greater_or_not(s21_decimal value_1, s21_decimal value_2, int *result,
                       int *check, int sign_1, int val) {
   int compare = 0;
@@ -20,10 +29,7 @@ int is_greater_or_not(s21_decimal value_1, s21_decimal value_2, int *result,
     else if (scale_1 != scale_2)
       big_normalization(&big_val_1, scale_2 - scale_1);
 
-    for (int i = 95; i >= 0; i--) {
-      compare = big_get_bit(big_val_1, i) - big_get_bit(big_val_2, i);
-      if (compare) break;
-    }
+    compare = big_is_greater(big_val_1, big_val_2);
     *check = 1;
   }
   return compare;

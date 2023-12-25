@@ -1,7 +1,7 @@
 FLAGS=-Wall -Werror -Wextra -std=c11
 CC=gcc $(FLAGS)
 FILE=s21_decimal
-FILETEST=tests/tests
+FILETEST=tests/*
 FILEREPORT=s21_test_report
 FILETESTO=s21_test
 DIRREPORT=report

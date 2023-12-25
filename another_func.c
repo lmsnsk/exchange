@@ -3,7 +3,7 @@
 int s21_negate(s21_decimal value, s21_decimal *result) {
   int error = check_decimal(value);
   if (!error) {
-    decimal_zero(result);
+    null_decimal(result);
     invert_sign(&value);
     for (int i = 0; i < 4; i++) result->bits[i] = value.bits[i];
   }
@@ -19,7 +19,7 @@ int s21_floor(s21_decimal value, s21_decimal *result) {
     } else {
       int flag = 0;
       int sign = get_sign(value);
-      decimal_zero(result);
+      null_decimal(result);
 
       for (int i = 0; i < scale; i++) {
         if (get_bit(value, i)) {
@@ -46,7 +46,7 @@ int s21_truncate(s21_decimal value, s21_decimal *result) {
     } else {
       int flag = 0;
       int sign = get_sign(value);
-      decimal_zero(result);
+      null_decimal(result);
 
       for (int i = 0; i < (96 - scale); i++) {  ///////// NEVERNO!
         int bit = get_bit(value, i + scale);
