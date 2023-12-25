@@ -103,37 +103,43 @@ void big_div(big_dec *big_val_1, big_dec *big_val_2, big_dec *big_result,
              big_dec ten_big_decimal) {
   big_dec remainder = *big_val_1;
 
-  // for (int i = 0; !big_is_decimal_zero(remainder); i++) {
-  int i = 0;
-  for (int l = 0; l < i; l++) {
-    remainder = big_mul(remainder, ten_big_decimal);
-  }
-  big_dec temp = *big_val_2;
-  int count = -1;
-  do {
-    count++;
-    big_shift_left(&temp, 1);
-  } while (big_is_greater(remainder, temp) >= 0);
-
-  // printf("%d\n", 0b1111101000);
-
-  while (count + 1) {
-    temp = *big_val_2;
-    for (int k = 0; k < count; k++) big_shift_left(&temp, 1);
-    // print_big_dec(remainder);
-
-    if (big_is_greater(temp, remainder) > 0) {
-      big_shift_left(big_result, 1);
-      printf("0\n");
-    } else {
-      big_diff(remainder, temp, &remainder);
-      big_shift_left(big_result, 1);
-      big_set_bit(big_result, 0, ONE);
-      printf("1\n");
+  for (int i = 0; !big_is_decimal_zero(remainder); i++) {
+    // int i = 0;
+    for (int l = 0; l < i; l++) {
+      remainder = big_mul(remainder, ten_big_decimal);
     }
-    count--;
+
+    big_dec temp = *big_val_2;
+    int count = -1;
+    do {
+      count++;
+      big_shift_left(&temp, 1);
+    } while (big_is_greater(remainder, temp) >= 0);
+
+    // printf("%d\n", 0b10011100010);
+    // printf("%d\n", 0b111110);
+
+    while (count + 1) {
+      temp = *big_val_2;
+      for (int k = 0; k < count; k++) big_shift_left(&temp, 1);
+
+      if (big_is_greater(temp, remainder) > 0) {
+        big_shift_left(big_result, 1);
+        // printf("0\n");
+      } else {
+        big_diff(remainder, temp, &remainder);
+        big_shift_left(big_result, 1);
+        big_set_bit(big_result, 0, ONE);
+        // printf("1\n");
+      }
+      // if (count == 0 && i == 1) {
+      //   print_big_dec(remainder);
+      //   print_big_dec(temp);
+      //   printf("COUNT %d\n", count);
+      // }
+      count--;
+    }
   }
-  // }
 }
 
 int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
