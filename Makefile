@@ -40,10 +40,10 @@ test: $(FILE).a
 	./$(FILETESTO)
 
 gcov_report: $(FILE).a
-	$(CC) $(COVFLAG) $(FILETEST).c $(FILE).c -o $(FILEREPORT) $(TESTFLAGS)
+	$(CC) $(COVFLAG) $(FILETEST).c *.c -o $(FILEREPORT) $(TESTFLAGS)
 	./$(FILEREPORT)
-	lcov -t "$(FILE)" -o $(FILETEST).info -c -d .  
-	genhtml -o $(DIRREPORT) $(FILETEST).info
+	lcov -t "$(FILE)" -o test.info -c -d .  
+	genhtml -o $(DIRREPORT) test.info
 	$(OPEN_CMD) $(DIRREPORT)/index.html
 
 rep: gcov_report

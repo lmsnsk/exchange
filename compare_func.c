@@ -26,7 +26,7 @@ int is_greater_or_not(s21_decimal value_1, s21_decimal value_2, int *result,
 
     if (scale_1 > scale_2)
       big_normalization(&big_val_2, scale_1 - scale_2);
-    else if (scale_1 != scale_2)
+    else if (scale_1 < scale_2)
       big_normalization(&big_val_1, scale_2 - scale_1);
 
     compare = big_is_greater(big_val_1, big_val_2);

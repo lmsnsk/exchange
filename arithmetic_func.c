@@ -17,17 +17,17 @@ int add_and_sub_core(s21_decimal value_1, s21_decimal value_2,
   else if (scale_1 != scale_2)
     big_normalization(&big_val_1, scale_2 - scale_1);
 
+  if (sign_1) big_invert_sign(&big_val_1);
+  if (sign_2) big_invert_sign(&big_val_2);
+
   if (abs(sign_1 - sign_2) == is_sub) {
     big_summ(big_val_1, big_val_2, &big_result);
     if (sign_1) big_invert_sign(&big_result);
   } else {
-    invert_sign(&value_1);
-    if (s21_is_equal(value_1, value_1)) {
+    if (!big_is_greater(big_val_1, big_val_2)) {
       big_null_decimal(&big_result);
     } else {
-      if (sign_1 && is_sub) invert_sign(&value_2);
-
-      if (s21_is_greater(value_1, value_2)) {
+      if (big_is_greater(big_val_1, big_val_2) > 0) {
         big_diff(big_val_1, big_val_2, &big_result);
         if (sign_1) big_invert_sign(&big_result);
       } else {
@@ -99,46 +99,47 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 //   return temp;
 // }
 
+void big_res_and_remainder(big_dec delitel, big_dec *big_result,
+                           big_dec *remainder) {
+  big_dec temp = delitel;
+  int count = -1;
+  do {
+    count++;
+    big_shift_left(&temp, 1);
+  } while (big_is_greater(*remainder, temp) >= 0);
+
+  while (count + 1) {
+    temp = delitel;
+    for (int k = 0; k < count; k++) big_shift_left(&temp, 1);
+
+    if (big_is_greater(temp, *remainder) > 0) {
+      big_shift_left(big_result, 1);
+    } else {
+      big_diff(*remainder, temp, remainder);
+      big_shift_left(big_result, 1);
+      big_set_bit(big_result, 0, ONE);
+    }
+    count--;
+  }
+}
+
 void big_div(big_dec *big_val_1, big_dec *big_val_2, big_dec *big_result,
-             big_dec ten_big_decimal) {
+             big_dec ten_big_decimal, int *scale) {
   big_dec remainder = *big_val_1;
 
   for (int i = 0; !big_is_decimal_zero(remainder); i++) {
     // int i = 0;
+    big_dec buffer_big_result;
+    big_null_decimal(&buffer_big_result);
     for (int l = 0; l < i; l++) {
+      if (*scale > 28) break;
       remainder = big_mul(remainder, ten_big_decimal);
+      *big_result = big_mul(*big_result, ten_big_decimal);
+      *scale += 1;
     }
-
-    big_dec temp = *big_val_2;
-    int count = -1;
-    do {
-      count++;
-      big_shift_left(&temp, 1);
-    } while (big_is_greater(remainder, temp) >= 0);
-
-    // printf("%d\n", 0b10011100010);
-    // printf("%d\n", 0b111110);
-
-    while (count + 1) {
-      temp = *big_val_2;
-      for (int k = 0; k < count; k++) big_shift_left(&temp, 1);
-
-      if (big_is_greater(temp, remainder) > 0) {
-        big_shift_left(big_result, 1);
-        // printf("0\n");
-      } else {
-        big_diff(remainder, temp, &remainder);
-        big_shift_left(big_result, 1);
-        big_set_bit(big_result, 0, ONE);
-        // printf("1\n");
-      }
-      // if (count == 0 && i == 1) {
-      //   print_big_dec(remainder);
-      //   print_big_dec(temp);
-      //   printf("COUNT %d\n", count);
-      // }
-      count--;
-    }
+    big_res_and_remainder(*big_val_2, &buffer_big_result, &remainder);
+    big_summ(*big_result, buffer_big_result, big_result);
+    if (i == 4) break;
   }
 }
 
@@ -164,12 +165,13 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     big_dec ten_big_decimal = from_decimal_to_big_decimal(ten_decimal);
 
     while (big_is_greater(big_val_1, big_val_2) < 0) {
+      if (scale_1 > 28) break;
       big_val_1 = big_mul(big_val_1, ten_big_decimal);
       scale_1++;
     }
 
     if (big_is_greater(big_val_1, big_val_2)) {
-      big_div(&big_val_1, &big_val_2, &big_result, ten_big_decimal);
+      big_div(&big_val_1, &big_val_2, &big_result, ten_big_decimal, &scale_1);
     } else {
       big_result.bits[0] = 1;
     }
