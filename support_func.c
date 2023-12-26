@@ -288,3 +288,19 @@ void big_diff(big_dec value_1, big_dec value_2, big_dec *result) {
     big_set_bit(result, i, res);
   }
 }
+
+void big_div_ten(big_dec big_val_1, big_dec *big_result,
+                 big_dec ten_big_decimal) {
+  big_dec remainder = big_val_1;
+  big_null_decimal(big_result);
+  big_res_and_remainder(ten_big_decimal, big_result, &remainder);
+  bank_round(big_result, remainder);
+}
+
+void bank_round(big_dec *value, big_dec remainder) {
+  if (remainder.bits[0] > 5) {
+    value->bits[0] += 1;
+  } else if (remainder.bits[0] == 5) {
+    if (big_get_bit(*value, 0)) value->bits[0] += 1;
+  }
+}

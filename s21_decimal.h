@@ -49,6 +49,9 @@ void big_summ(big_dec value_1, big_dec value_2, big_dec *result);
 void diff(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 void big_diff(big_dec value_1, big_dec value_2, big_dec *result);
 void big_normalization(big_dec *dst, int diff);
+void big_div_ten(big_dec big_val_1, big_dec *big_result,
+                 big_dec ten_big_decimal);
+void bank_round(big_dec *value, big_dec remainder);
 
 // --- arithmetic functions --- //
 int add_and_sub_core(s21_decimal value_1, s21_decimal value_2,

@@ -141,27 +141,6 @@ void big_div(big_dec *big_val_1, big_dec *big_val_2, big_dec *big_result,
   }
 }
 
-void big_div_ten(big_dec *big_val_1, big_dec *big_result,
-                 big_dec ten_big_decimal, int *scale) {
-  big_dec remainder = *big_val_1;
-
-  for (int i = 0; !big_is_decimal_zero(remainder); i++) {
-    int scale_limit = 0;
-    big_dec buffer_big_result;
-    big_null_decimal(&buffer_big_result);
-
-    if (i) {
-      remainder = big_mul(remainder, ten_big_decimal);
-      *big_result = big_mul(*big_result, ten_big_decimal);
-      *scale += 1;
-    }
-    big_res_and_remainder(ten_big_decimal, &buffer_big_result, &remainder);
-    big_summ(*big_result, buffer_big_result, big_result);
-
-    if (*scale == 28) break;
-  }
-}
-
 int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
   int error = 0;
   null_decimal(result);
