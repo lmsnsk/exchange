@@ -1,5 +1,14 @@
 #include "s21_decimal.h"
 
+int is_greater(s21_decimal value_1, s21_decimal value_2) {
+  int compare = 0;
+  for (int i = 3 * 32 - 1; i >= 0; i--) {
+    compare = get_bit(value_1, i) - get_bit(value_2, i);
+    if (compare) break;
+  }
+  return compare;
+}
+
 int big_is_greater(big_dec value_1, big_dec value_2) {
   int compare = 0;
   for (int i = (BIG_SIZE - 1) * 32 - 1; i >= 0; i--) {

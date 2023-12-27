@@ -6,23 +6,20 @@
 // void print_big_dec(big_dec dec);
 
 int main() {
-  int dst = 0;
   s21_decimal example;
+  s21_decimal result;
   null_decimal(&example);
 
-  example.bits[0] = -2147483648;
-  example.bits[1] = 0;
+  example.bits[0] = 123456;
+  example.bits[1] = 5;
   example.bits[2] = 0;
 
-  set_scale(&example, 0);
+  set_scale(&example, 9);
   // invert_sign(&example);
 
-  int error = s21_from_decimal_to_int(example, &dst);
-  // int a = 2147483649;
-  printf(" %d\n\n\n", 0b10000000000000000000000000000000);
+  int error = s21_truncate(example, &result);
   if (!error) {
-    printf("Converted decimal: %d\n\n\n", dst);
-    print_dec(example);
+    print_dec(result);
     printf("OK!\n");
   } else {
     printf("Error: %d!\n", error);

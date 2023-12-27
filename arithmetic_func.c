@@ -165,10 +165,44 @@ void big_res_and_remainder(big_dec *big_result, big_dec delitel,
   }
 }
 
+void res_and_remainder(s21_decimal *result, s21_decimal delitel,
+                       s21_decimal *remainder) {
+  s21_decimal temp = delitel;
+  s21_decimal temp_for_compare = delitel;
+  int count = -1;
+  do {
+    shift_left(&temp_for_compare, 1);
+    count++;
+    if (is_greater(*remainder, temp_for_compare) >= 0) {
+      shift_left(&temp, 1);
+    }
+  } while (is_greater(*remainder, temp_for_compare) >= 0);
+
+  while (count + 1) {
+    temp = delitel;
+    for (int k = 0; k < count; k++) shift_left(&temp, 1);
+
+    if (is_greater(temp, *remainder) > 0) {
+      shift_left(result, 1);
+    } else {
+      diff(*remainder, temp, remainder);
+      shift_left(result, 1);
+      set_bit(result, 0, ONE);
+    }
+    count--;
+  }
+}
+
 void big_div_ten(big_dec *big_result, big_dec *remainder,
                  big_dec ten_big_decimal) {
   big_null_decimal(big_result);
   big_res_and_remainder(big_result, ten_big_decimal, remainder);
+}
+
+void div_ten(s21_decimal *result, s21_decimal *remainder,
+             s21_decimal ten_decimal) {
+  null_decimal(result);
+  res_and_remainder(result, ten_decimal, remainder);
 }
 
 void big_div(big_dec *big_val_1, big_dec *big_val_2, big_dec *big_result,
