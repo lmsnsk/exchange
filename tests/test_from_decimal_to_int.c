@@ -412,7 +412,7 @@ START_TEST(s21_from_decimal_to_intTest15) {
 END_TEST
 
 Suite *suite_from_decimal_to_int(void) {
-  Suite *s = suite_create("\033[45m---FROM DECIMAL TO INT TESTS---\033[0m");
+  Suite *s = suite_create("\033[46m---FROM DECIMAL TO INT TESTS---\033[0m");
   TCase *tc = tcase_create("case_from_int_to_decimal");
 
   tcase_add_test(tc, from_decimal_to_int_0);

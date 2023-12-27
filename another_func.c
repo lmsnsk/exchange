@@ -45,12 +45,14 @@ int s21_truncate(s21_decimal value, s21_decimal *result) {
 
     if (scale) {
       s21_decimal ten_decimal;
+      unsigned sign = get_sign(value);
       s21_from_int_to_decimal(10, &ten_decimal);
       while (scale > 0) {
         s21_decimal remainder = *result;
         div_ten(result, &remainder, ten_decimal);
         scale--;
       }
+      if (sign) invert_sign(result);
     }
   }
   return error;

@@ -20,6 +20,7 @@ int main(void) {
                          suite_is_greater(),
                          suite_is_less(),
                          suite_is_less_or_equal(),
+                         suite_truncate(),
                          suite_add(),
                          NULL};
   for (Suite** current_testcase = list_cases; *current_testcase != NULL;

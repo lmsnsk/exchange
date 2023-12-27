@@ -170,12 +170,16 @@ void res_and_remainder(s21_decimal *result, s21_decimal delitel,
   s21_decimal temp = delitel;
   s21_decimal temp_for_compare = delitel;
   int count = -1;
+  print_dec(*remainder);
+  print_dec(temp_for_compare);
+
   do {
     shift_left(&temp_for_compare, 1);
     count++;
     if (is_greater(*remainder, temp_for_compare) >= 0) {
       shift_left(&temp, 1);
     }
+    if (get_bit(temp_for_compare, 95)) break;
   } while (is_greater(*remainder, temp_for_compare) >= 0);
 
   while (count + 1) {

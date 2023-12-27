@@ -1291,7 +1291,7 @@ START_TEST(add_test_37) {
 END_TEST
 
 Suite* suite_add(void) {
-  Suite* s = suite_create("\033[45m---ADD TESTS---\033[0m");
+  Suite* s = suite_create("\033[46m---ADD TESTS---\033[0m");
   TCase* tc = tcase_create("case_add");
 
   tcase_add_test(tc, add_0);

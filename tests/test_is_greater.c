@@ -846,7 +846,7 @@ START_TEST(s21_is_greaterTest36) {
 END_TEST
 
 Suite *suite_is_greater(void) {
-  Suite *s = suite_create("\033[45m---IS GREATER TESTS---\033[0m");
+  Suite *s = suite_create("\033[46m---IS GREATER TESTS---\033[0m");
   TCase *tc = tcase_create("is_greater_tc");
 
   tcase_add_test(tc, is_greater_0);

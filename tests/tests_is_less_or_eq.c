@@ -829,7 +829,7 @@ END_TEST
 Suite *suite_is_less_or_equal(void) {
   Suite *s;
   TCase *tc;
-  s = suite_create("\033[45m---IS LESS OR EQ TESTS---\033[0m");
+  s = suite_create("\033[46m---IS LESS OR EQ TESTS---\033[0m");
   tc = tcase_create("is_less_or_equal_test");
 
   tcase_add_test(tc, s21_less_or_equal);
