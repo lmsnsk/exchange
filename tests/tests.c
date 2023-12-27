@@ -15,8 +15,13 @@ void run_testcase(Suite* testcase) {
 }
 
 int main(void) {
-  Suite* list_cases[] = {suite_is_greater(), suite_is_less(),
-                         suite_is_less_or_equal(), suite_add(), NULL};
+  Suite* list_cases[] = {suite_from_int_to_decimal(),
+                         suite_from_decimal_to_int(),
+                         suite_is_greater(),
+                         suite_is_less(),
+                         suite_is_less_or_equal(),
+                         suite_add(),
+                         NULL};
   for (Suite** current_testcase = list_cases; *current_testcase != NULL;
        current_testcase++) {
     run_testcase(*current_testcase);

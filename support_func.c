@@ -1,6 +1,5 @@
 #include "s21_decimal.h"
 
-// Обнуляет весь децимал
 void null_decimal(s21_decimal *dst) {
   for (int i = 0; i < 4; i++) dst->bits[i] = 0;
 }
@@ -196,19 +195,49 @@ big_dec from_decimal_to_big_decimal(s21_decimal value) {
   return result;
 }
 
-int from_big_decimal_to_decimal(big_dec value, s21_decimal *result) {
-  int error = 0;
-  // int scale = big_get_scale(value);
+int is_big(big_dec value) {
+  int big = 0;
   for (int i = 3; i < BIG_SIZE - 1; i++) {
-    // int check = value.bits[i] / pow(10, scale);
     if (value.bits[i] != 0) {
-      error = big_get_sign(value) ? 2 : 1;
+      big = 1;
       break;
     }
-  }  ///////////////////////////////////////////////// need fix!!!!!!
+  }
+  return big;
+}
+
+int from_big_decimal_to_decimal(big_dec value, s21_decimal *result) {
+  int error = 0;
+  int sign = big_get_sign(value);
+  unsigned scale = big_get_scale(value);
+  big_dec big_result = value;
+
+  if (is_big(big_result)) {
+    if (!scale) {
+      error = sign ? 2 : 1;
+    } else {
+      s21_decimal ten_decimal;
+      s21_from_int_to_decimal(10, &ten_decimal);
+      big_dec ten_big_decimal = from_decimal_to_big_decimal(ten_decimal);
+
+      while (is_big(big_result) && scale > 0) {
+        big_dec remainder = big_result;
+        big_div_ten(&big_result, &remainder, ten_big_decimal);
+        bank_round(&big_result, remainder);
+        scale--;
+      }
+
+      if (is_big(big_result)) {
+        error = sign ? 2 : 1;
+      } else {
+        big_set_scale(&big_result, scale);
+        if (sign) big_invert_sign(&big_result);
+      }
+    }
+  }
   if (!error) {
-    for (int i = 0; i < 3; i++) result->bits[i] = value.bits[i];
-    result->bits[3] = value.bits[BIG_SIZE - 1];
+    for (int i = 0; i < 3; i++) result->bits[i] = big_result.bits[i];
+    result->bits[3] = big_result.bits[BIG_SIZE - 1];
   }
   return error;
 }
@@ -245,56 +274,6 @@ void big_normalization(big_dec *dst, int diff) {
     big_summ(tmp1, tmp2, dst);
   }
   big_set_scale(dst, scale + diff);
-}
-
-void summ(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-  int memory = 0;
-  for (int i = 0; i < 3 * 32; i++) {
-    unsigned res = get_bit(value_1, i) + get_bit(value_2, i) + memory;
-    memory = res / 2;
-    res %= 2;
-    set_bit(result, i, res);
-  }
-}
-
-void big_summ(big_dec value_1, big_dec value_2, big_dec *result) {
-  int memory = 0;
-  for (int i = 0; i < (BIG_SIZE - 1) * 32; i++) {
-    unsigned res = big_get_bit(value_1, i) + big_get_bit(value_2, i) + memory;
-    memory = res / 2;
-    res %= 2;
-    big_set_bit(result, i, res);
-  }
-}
-
-void diff(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-  int memory = 0;
-  for (int i = 0; i < 3 * 32; i++) {
-    int res = get_bit(value_1, i) - get_bit(value_2, i) - memory;
-    memory = res < 0 ? 1 : 0;
-    res %= 2;
-
-    set_bit(result, i, res);
-  }
-}
-
-void big_diff(big_dec value_1, big_dec value_2, big_dec *result) {
-  int memory = 0;
-  for (int i = 0; i < (BIG_SIZE - 1) * 32; i++) {
-    int res = big_get_bit(value_1, i) - big_get_bit(value_2, i) - memory;
-    memory = res < 0 ? 1 : 0;
-    res %= 2;
-
-    big_set_bit(result, i, res);
-  }
-}
-
-void big_div_ten(big_dec big_val_1, big_dec *big_result,
-                 big_dec ten_big_decimal) {
-  big_dec remainder = big_val_1;
-  big_null_decimal(big_result);
-  big_res_and_remainder(ten_big_decimal, big_result, &remainder);
-  bank_round(big_result, remainder);
 }
 
 void bank_round(big_dec *value, big_dec remainder) {

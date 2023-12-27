@@ -40,28 +40,28 @@ START_TEST(s21_from_int_to_decimal_1) {
   ck_assert_int_eq(val.bits[2], 0);
   ck_assert_int_eq(val.bits[3], 0);
 
-  s21_zero_decimal(&val);
+  null_decimal(&val);
   s21_from_int_to_decimal(-128, &val);
   ck_assert_int_eq(val.bits[0], 128);
   ck_assert_int_eq(val.bits[1], 0);
   ck_assert_int_eq(val.bits[2], 0);
-  ck_assert_int_eq(val.bits[3], 2147483648);
+  ck_assert_int_eq(val.bits[3], -2147483648);
 
-  s21_zero_decimal(&val);
+  null_decimal(&val);
   s21_from_int_to_decimal(127, &val);
   ck_assert_int_eq(val.bits[0], 127);
   ck_assert_int_eq(val.bits[1], 0);
   ck_assert_int_eq(val.bits[2], 0);
   ck_assert_int_eq(val.bits[3], 0);
 
-  s21_zero_decimal(&val);
+  null_decimal(&val);
   s21_from_int_to_decimal(-2147483648, &val);
-  ck_assert_int_eq(val.bits[0], 2147483648);
+  ck_assert_int_eq(val.bits[0], -2147483648);
   ck_assert_int_eq(val.bits[1], 0);
   ck_assert_int_eq(val.bits[2], 0);
-  ck_assert_int_eq(val.bits[3], 2147483648);
+  ck_assert_int_eq(val.bits[3], -2147483648);
 
-  s21_zero_decimal(&val);
+  null_decimal(&val);
   s21_from_int_to_decimal(2147483647, &val);
   ck_assert_int_eq(val.bits[0], 2147483647);
   ck_assert_int_eq(val.bits[1], 0);
@@ -347,8 +347,6 @@ Suite *suite_from_int_to_decimal(void) {
   tcase_add_test(tc, s21_from_int_to_decimalTest7);
   tcase_add_test(tc, s21_from_int_to_decimalTest8);
   tcase_add_test(tc, s21_from_int_to_decimalTest9);
-  tcase_add_test(tc, from_int_to_decimal_0);
-  tcase_add_test(tc, from_int_to_decimal_1);
 
   suite_add_tcase(s, tc);
   return s;

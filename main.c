@@ -6,37 +6,27 @@
 // void print_big_dec(big_dec dec);
 
 int main() {
-  s21_decimal ten_decimal;
-  // s21_decimal result;
-  s21_decimal example1;
-  s21_decimal example2;
-  big_dec big_result;
+  int dst = 0;
+  s21_decimal example;
+  null_decimal(&example);
 
-  null_decimal(&example1);
-  null_decimal(&example2);
-  s21_from_int_to_decimal(155, &example1);
-  s21_from_int_to_decimal(3, &example2);
+  example.bits[0] = -2147483648;
+  example.bits[1] = 0;
+  example.bits[2] = 0;
 
-  // example1.bits[0] = 8;
-  // example2.bits[0] = 1;
+  set_scale(&example, 0);
+  // invert_sign(&example);
 
-  big_dec big_example1 = from_decimal_to_big_decimal(example1);
-  big_dec big_example2 = from_decimal_to_big_decimal(example2);
-
-  s21_from_int_to_decimal(10, &ten_decimal);
-  big_dec ten_big_decimal = from_decimal_to_big_decimal(ten_decimal);
-
-  // print_dec(example1);
-  // print_dec(example2);
-  // int error = s21_div(example1, example2, &result);
-  big_div_ten(big_example1, &big_result, ten_big_decimal);
-  print_big_dec(big_result);
-  // if (!error) {
-  //   print_dec(result);
-  //   printf("OK!");
-  // } else {
-  //   printf("Error: %d!\n", error);
-  // }
+  int error = s21_from_decimal_to_int(example, &dst);
+  // int a = 2147483649;
+  printf(" %d\n\n\n", 0b10000000000000000000000000000000);
+  if (!error) {
+    printf("Converted decimal: %d\n\n\n", dst);
+    print_dec(example);
+    printf("OK!\n");
+  } else {
+    printf("Error: %d!\n", error);
+  }
 
   return 0;
 }
