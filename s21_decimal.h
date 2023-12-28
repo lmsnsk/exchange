@@ -59,14 +59,10 @@ int add_and_sub_core(s21_decimal value_1, s21_decimal value_2,
                      s21_decimal *result, int check_add_or_sub);
 big_dec big_mul(big_dec big_val_1, big_dec big_val_2);
 void big_div(big_dec *big_val_1, big_dec *big_val_2, big_dec *big_result,
-             big_dec ten_big_decimal, int *scale);
-void div_ten(s21_decimal *result, s21_decimal *remainder,
-             s21_decimal big_decimal);
+             big_dec big_ten_decimal, int *scale);
 void big_div_ten(big_dec *big_result, big_dec *remainder,
-                 big_dec ten_big_decimal);
+                 big_dec big_ten_decimal);
 // big_dec big_reverse(big_dec value, int limit);
-void res_and_remainder(s21_decimal *result, s21_decimal delitel,
-                       s21_decimal *remainder);
 void big_res_and_remainder(big_dec *big_result, big_dec delitel,
                            big_dec *remainder);
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
@@ -86,7 +82,6 @@ int s21_truncate(s21_decimal value, s21_decimal *result);
 int s21_negate(s21_decimal value, s21_decimal *result);
 
 // --- compare functions --- //
-int is_greater(s21_decimal value_1, s21_decimal value_2);
 int big_is_greater(big_dec value_1, big_dec value_2);
 int is_greater_or_not(s21_decimal value_1, s21_decimal value_2, int *result,
                       int *temp, int sign_1, int val);

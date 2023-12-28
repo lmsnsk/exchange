@@ -144,11 +144,19 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 void big_res_and_remainder(big_dec *big_result, big_dec delitel,
                            big_dec *remainder) {
   big_dec temp = delitel;
+  big_dec temp_for_compare = delitel;
   int count = -1;
-  do {
+
+  while (big_is_greater(*remainder, temp) >= 0) {
+    big_shift_left(&temp_for_compare, 1);
     count++;
+    if (big_is_greater(temp_for_compare, *remainder) >= 0) break;
     big_shift_left(&temp, 1);
-  } while (big_is_greater(*remainder, temp) >= 0);
+  };
+
+  // print_big_dec(*remainder);
+  // print_big_dec(temp);
+  // printf("%d\n", count);
 
   while (count + 1) {
     temp = delitel;
@@ -165,60 +173,22 @@ void big_res_and_remainder(big_dec *big_result, big_dec delitel,
   }
 }
 
-void res_and_remainder(s21_decimal *result, s21_decimal delitel,
-                       s21_decimal *remainder) {
-  s21_decimal temp = delitel;
-  s21_decimal temp_for_compare = delitel;
-  int count = -1;
-  print_dec(*remainder);
-  print_dec(temp_for_compare);
-
-  do {
-    shift_left(&temp_for_compare, 1);
-    count++;
-    if (is_greater(*remainder, temp_for_compare) >= 0) {
-      shift_left(&temp, 1);
-    }
-    if (get_bit(temp_for_compare, 95)) break;
-  } while (is_greater(*remainder, temp_for_compare) >= 0);
-
-  while (count + 1) {
-    temp = delitel;
-    for (int k = 0; k < count; k++) shift_left(&temp, 1);
-
-    if (is_greater(temp, *remainder) > 0) {
-      shift_left(result, 1);
-    } else {
-      diff(*remainder, temp, remainder);
-      shift_left(result, 1);
-      set_bit(result, 0, ONE);
-    }
-    count--;
-  }
-}
-
 void big_div_ten(big_dec *big_result, big_dec *remainder,
-                 big_dec ten_big_decimal) {
+                 big_dec big_ten_decimal) {
   big_null_decimal(big_result);
-  big_res_and_remainder(big_result, ten_big_decimal, remainder);
-}
-
-void div_ten(s21_decimal *result, s21_decimal *remainder,
-             s21_decimal ten_decimal) {
-  null_decimal(result);
-  res_and_remainder(result, ten_decimal, remainder);
+  big_res_and_remainder(big_result, big_ten_decimal, remainder);
 }
 
 void big_div(big_dec *big_val_1, big_dec *big_val_2, big_dec *big_result,
-             big_dec ten_big_decimal, int *scale) {
+             big_dec big_ten_decimal, int *scale) {
   big_dec remainder = *big_val_1;
 
   for (int i = 0; !big_is_decimal_zero(remainder); i++) {
     big_dec buffer_big_result;
     big_null_decimal(&buffer_big_result);
     if (i) {
-      remainder = big_mul(remainder, ten_big_decimal);
-      *big_result = big_mul(*big_result, ten_big_decimal);
+      remainder = big_mul(remainder, big_ten_decimal);
+      *big_result = big_mul(*big_result, big_ten_decimal);
       *scale += 1;
     }
     big_res_and_remainder(&buffer_big_result, *big_val_2, &remainder);

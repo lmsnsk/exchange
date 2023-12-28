@@ -47,11 +47,15 @@ int s21_truncate(s21_decimal value, s21_decimal *result) {
       s21_decimal ten_decimal;
       unsigned sign = get_sign(value);
       s21_from_int_to_decimal(10, &ten_decimal);
+      big_dec big_ten_decimal = from_decimal_to_big_decimal(ten_decimal);
+      big_dec big_result = from_decimal_to_big_decimal(value);
+
       while (scale > 0) {
-        s21_decimal remainder = *result;
-        div_ten(result, &remainder, ten_decimal);
+        big_dec remainder = big_result;
+        big_div_ten(&big_result, &remainder, big_ten_decimal);
         scale--;
       }
+      from_big_decimal_to_decimal(big_result, result);
       if (sign) invert_sign(result);
     }
   }

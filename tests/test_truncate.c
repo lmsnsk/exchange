@@ -615,7 +615,7 @@ Suite *suite_truncate(void) {
   tcase_add_test(tc, s21_truncateTest3);
   tcase_add_test(tc, s21_truncateTest4);
   tcase_add_test(tc, s21_truncateTest5);
-  // tcase_add_test(tc, s21_truncateTest6);  ///////////////////////// cycle
+  tcase_add_test(tc, s21_truncateTest6);
   tcase_add_test(tc, s21_truncateTest7);
   tcase_add_test(tc, s21_truncateTest8);
   tcase_add_test(tc, s21_truncateTest9);
