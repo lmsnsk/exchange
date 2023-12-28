@@ -2,43 +2,50 @@
 
 #include "s21_decimal.h"
 
-// int main() {
-//   s21_decimal example;
-//   s21_decimal result;
-//   null_decimal(&example);
+int main() {
+  // s21_decimal example;
+  // s21_decimal result;
+  // null_decimal(&example);
 
-//   example.bits[0] = 123456;
-//   example.bits[1] = 0;
-//   example.bits[2] = 0;
+  // example.bits[0] = 123456;
+  // example.bits[1] = 0;
+  // example.bits[2] = 0;
 
-//   set_scale(&example, 1);
-//   // invert_sign(&example);
+  // set_scale(&example, 1);
+  // // invert_sign(&example);
 
-//   int error = s21_truncate(example, &result);
-//   if (!error) {
-//     print_dec(result);
-//     printf("OK!\n");
-//   } else {
-//     printf("Error: %d!\n", error);
-//   }
+  // int error = s21_truncate(example, &result);
+  // if (!error) {
+  //   print_dec(result);
+  //   printf("OK!\n");
+  // } else {
+  //   printf("Error: %d!\n", error);
+  // }
 
-//   // s21_decimal src1, origin;  /// for truncate
+  s21_decimal val1 = {{0}};
+  s21_decimal val2 = {{0}};
+  set_bit(&val1, 127, 1);
 
-//   // src1.bits[0] = 0b10000010111000100101101011101101;
-//   // src1.bits[1] = 0b11111001111010000010010110101101;
-//   // src1.bits[2] = 0b10110000001111101111000010010100;
-//   // src1.bits[3] = 0b10000000000011100000000000000000;
-//   // s21_decimal result = {{0, 0, 0, 0}};
-//   // s21_truncate(src1, &result);
+  print_dec(val1);
+  print_dec(val2);
 
-//   // origin.bits[0] = 0b10000110011101001011101110010001;
-//   // origin.bits[1] = 0b00000000000000011111000000010110;
-//   // origin.bits[2] = 0b00000000000000000000000000000000;
-//   // origin.bits[3] = 0b10000000000000000000000000000000;
-//   // print_dec(src1);
-//   // print_dec(origin);
-//   return 0;
-// }
+  // s21_decimal src1, origin;  /// for truncate
+
+  // src1.bits[0] = 0b10000010111000100101101011101101;
+  // src1.bits[1] = 0b11111001111010000010010110101101;
+  // src1.bits[2] = 0b10110000001111101111000010010100;
+  // src1.bits[3] = 0b10000000000011100000000000000000;
+  // s21_decimal result = {{0, 0, 0, 0}};
+  // s21_truncate(src1, &result);
+
+  // origin.bits[0] = 0b10000110011101001011101110010001;
+  // origin.bits[1] = 0b00000000000000011111000000010110;
+  // origin.bits[2] = 0b00000000000000000000000000000000;
+  // origin.bits[3] = 0b10000000000000000000000000000000;
+  // print_dec(src1);
+  // print_dec(origin);
+  return 0;
+}
 
 void print_dec(s21_decimal dec) {
   printf("========== D E C I M A L ==========\n");

@@ -152,11 +152,7 @@ void big_res_and_remainder(big_dec *big_result, big_dec delitel,
     count++;
     if (big_is_greater(temp_for_compare, *remainder) >= 0) break;
     big_shift_left(&temp, 1);
-  };
-
-  // print_big_dec(*remainder);
-  // print_big_dec(temp);
-  // printf("%d\n", count);
+  }
 
   while (count + 1) {
     temp = delitel;
