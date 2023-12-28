@@ -3,6 +3,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>  ///
 
 #define SCALE_MASK 0xff0000
 #define MINUS_MAX_INT -2147483648
@@ -71,13 +72,15 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 
 // --- transform functions --- //
+big_dec from_int_to_big_decimal(int src);
 int convert_decimal_to_int(s21_decimal src, int *dst, int sign);
 int s21_from_int_to_decimal(int src, s21_decimal *dst);
 int s21_from_decimal_to_int(s21_decimal src, int *dst);
+int s21_from_float_to_decimal(float src, s21_decimal *dst);
 
 // --- another functions --- //
 int s21_floor(s21_decimal value, s21_decimal *result);
-// int s21_round(s21_decimal value, s21_decimal *result);
+int s21_round(s21_decimal value, s21_decimal *result);
 int s21_truncate(s21_decimal value, s21_decimal *result);
 int s21_negate(s21_decimal value, s21_decimal *result);
 

@@ -24,6 +24,9 @@ int main(void) {
                          suite_is_equal(),
                          suite_is_not_equal(),
                          suite_truncate(),
+                         suite_floor(),
+                         suite_round(),
+                         suite_negate(),
                          suite_add(),
                          NULL};
   for (Suite** current_testcase = list_cases; *current_testcase != NULL;
