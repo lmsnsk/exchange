@@ -44,8 +44,7 @@ int convert_decimal_to_int(s21_decimal src, int *dst, int sign) {
 }
 
 int s21_from_decimal_to_int(s21_decimal src, int *dst) {
-  int error = 0;
-  if (check_decimal(src)) error = 1;
+  int error = check_decimal(src);
 
   if (!error) {
     int sign = get_sign(src);
@@ -53,9 +52,7 @@ int s21_from_decimal_to_int(s21_decimal src, int *dst) {
 
     if (scale) {
       big_dec big_temp = from_decimal_to_big_decimal(src);
-      s21_decimal ten_decimal;
-      s21_from_int_to_decimal(10, &ten_decimal);
-      big_dec ten_big_decimal = from_decimal_to_big_decimal(ten_decimal);
+      big_dec ten_big_decimal = from_int_to_big_decimal(10);
 
       while (scale > 0) {
         big_dec remainder = big_temp;
@@ -82,21 +79,85 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
   }
   if (!error) {
     double mantissa;
-    int scale;
+    int exp;
     char float_str[50];
     sprintf(float_str, "%E", src);
     char *exp_str = strchr(float_str, 'E');
     exp_str += 2;
-    sscanf(exp_str, "%d", &scale);
+    sscanf(exp_str, "%d", &exp);
     float_str[8] = 0;
     sscanf(float_str, "%lf", &mantissa);
-    if ((scale == 28 && mantissa > 7.922816) || scale > 28) {
+    printf("%d\n", exp);
+    if ((exp == 28 && mantissa > 7.922816) || exp > 28) {
       error = 1;
     } else {
+      int counter = 0;
+      double mantissa_temp = mantissa;
+      for (int i = 0; i < 6; i++) {
+        if (mantissa_temp != (int)mantissa_temp) counter++;
+        mantissa_temp *= 10;
+      }
       null_decimal(dst);
-      dst->bits[0] = (int)(mantissa * 1E6);
-      set_scale(dst, scale);
+      dst->bits[0] = (int)(mantissa * pow(10, counter));
+      set_scale(dst, counter);
       if (sign) invert_sign(dst);
+
+      big_dec big_dst = from_decimal_to_big_decimal(*dst);
+      big_dec ten_big_decimal = from_int_to_big_decimal(10);
+
+      for (int i = 0; i < exp; i++) {
+        if (counter) {
+          big_set_scale(&big_dst, counter - 1);
+          counter--;
+        } else
+          big_dst = big_mul(big_dst, ten_big_decimal);
+      }
+      error = from_big_decimal_to_decimal(big_dst, dst);
+      if (error) error = 1;
+    }
+  }
+  return error;
+}
+
+int is_bits_1_2_empty(s21_decimal src) {
+  int res = 0;
+  if (src.bits[1] == 0 && src.bits[2] == 0) res = 1;
+  return res;
+}
+
+double convert_to_float(s21_decimal src, unsigned scale, int sign) {
+  double dst;
+  dst = (double)(unsigned)src.bits[0];
+  if (scale) dst /= pow(10, scale);
+  if (sign) dst *= -1;
+  return dst;
+}
+
+int s21_from_decimal_to_float(s21_decimal src, float *dst) {
+  int error = check_decimal(src);
+  if (!error) {
+    int sign = get_sign(src);
+    unsigned scale = get_scale(src);
+    int check_bits = is_bits_1_2_empty(src);
+
+    if (check_bits) {
+      *dst = (float)convert_to_float(src, scale, sign);
+    } else {
+      int count = 0;
+      big_dec big_res, big_temp;
+      big_dec big_src = from_decimal_to_big_decimal(src);
+      big_dec big_ten_decimal = from_int_to_big_decimal(10);
+      big_temp = big_src;
+
+      while (!check_bits) {
+        big_div_ten(&big_res, &big_temp, big_ten_decimal);
+        from_big_decimal_to_decimal(big_res, &src);
+        check_bits = is_bits_1_2_empty(src);
+        big_temp = big_res;
+        count++;
+      }
+      double value = convert_to_float(src, scale, sign);
+      *dst = (float)(value * pow(10, count));
     }
   }
   return error;
