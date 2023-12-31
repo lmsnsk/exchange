@@ -2,28 +2,29 @@
 
 #include "s21_decimal.h"
 
-int main() {
-  // float a;
-  // s21_decimal src;
-  // src.bits[0] = -1;
-  // src.bits[1] = -1;
-  // src.bits[2] = -1;
-  // src.bits[3] = 0;
+// int main() {
+//   // float a;
+//   // s21_decimal src;
+//   // src.bits[0] = -1;
+//   // src.bits[1] = -1;
+//   // src.bits[2] = -1;
+//   // src.bits[3] = 0;
 
-  // set_scale(&src, 0);
-  // // invert_sign(&src);
+//   // set_scale(&src, 0);
+//   // // invert_sign(&src);
 
-  // s21_from_decimal_to_float(src, &a);
-  // printf("%f\n", a);
+//   // s21_from_decimal_to_float(src, &a);
+//   // printf("%f\n", a);
 
-  s21_decimal var = {{0, 0, 0, 0}};
-  float value = 0;
-  s21_from_float_to_decimal(5E12, &var);
-  print_dec(var);
-  s21_from_decimal_to_float(var, &value);
+//   s21_decimal var = {{0, 0, 0, 0}};
+//   float value = 0;
+//   s21_from_float_to_decimal(7E28, &var);
+//   print_dec(var);
+//   s21_from_decimal_to_float(var, &value);
+//   printf("%f\n", value);
 
-  return 0;
-}
+//   return 0;
+// }
 
 void print_dec(s21_decimal dec) {
   printf("========== D E C I M A L ==========\n");

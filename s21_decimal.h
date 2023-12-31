@@ -77,6 +77,8 @@ big_dec from_int_to_big_decimal(int src);
 int convert_decimal_to_int(s21_decimal src, int *dst, int sign);
 int is_bits_1_2_empty(s21_decimal src);
 double convert_to_float(s21_decimal src, unsigned scale, int sign);
+void convert_float_to_decimal(float src, s21_decimal *dst, int *error,
+                              int sign);
 
 int s21_from_int_to_decimal(int src, s21_decimal *dst);
 int s21_from_decimal_to_int(s21_decimal src, int *dst);

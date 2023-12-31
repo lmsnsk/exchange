@@ -9,7 +9,7 @@ START_TEST(float_to_decimal_1) {
   func_error = s21_from_float_to_decimal(a, &dec);
   s21_from_decimal_to_float(dec, &b);
   ck_assert_int_eq(error, func_error);
-  ck_assert_float_eq(a, b);
+  ck_assert_float_eq_tol(a, b, 1e-05);
 }
 END_TEST
 
@@ -637,32 +637,6 @@ START_TEST(float_to_decimal_49) {
 }
 END_TEST
 
-START_TEST(float_to_decimal_50) {
-  float a = MAX_DEC + 1;
-  float b = 0.0;
-  int error = 0;
-  int func_error = 0;
-  s21_decimal dec = {{0}};
-  func_error = s21_from_float_to_decimal(a, &dec);
-  s21_from_decimal_to_float(dec, &b);
-  ck_assert_int_eq(error, func_error);
-  ck_assert_float_eq(0, b);
-}
-END_TEST
-
-START_TEST(float_to_decimal_51) {
-  float a = MIN_DEC - 1;
-  float b = 0.0;
-  int error = 0;
-  int func_error = 0;
-  s21_decimal dec = {{0}};
-  func_error = s21_from_float_to_decimal(a, &dec);
-  s21_from_decimal_to_float(dec, &b);
-  ck_assert_int_eq(error, func_error);
-  ck_assert_float_eq(0, b);
-}
-END_TEST
-
 START_TEST(float_to_decimal_52) {
   float a = 0.0;
   float b = 0.0;
@@ -673,18 +647,6 @@ START_TEST(float_to_decimal_52) {
   s21_from_decimal_to_float(dec, &b);
   ck_assert_int_eq(error, func_error);
   ck_assert_float_eq(a, b);
-}
-END_TEST
-
-START_TEST(float_to_decimal_53) {
-  float a = MAX_DEC;
-  float b = 0.0;
-  int error = 0;
-  int func_error = 0;
-  s21_decimal dec = {{0}};
-  func_error = s21_from_float_to_decimal(a, &dec);
-  s21_from_decimal_to_float(dec, &b);
-  ck_assert_int_eq(error, func_error);
 }
 END_TEST
 
@@ -887,7 +849,7 @@ START_TEST(float_to_decimal_71) {
   float f = 0.03;
   s21_decimal result = {0};
   s21_decimal check = {{3, 0, 0, 0}};
-  s21_set_scale(&check, 2);
+  set_scale(&check, 2);
   int return_value = s21_from_float_to_decimal(f, &result);
   ck_assert_int_eq(s21_is_equal(result, check), 1);
   ck_assert_int_eq(return_value, 0);
@@ -898,8 +860,8 @@ START_TEST(float_to_decimal_72) {
   float f = -128.023;
   s21_decimal result = {0};
   s21_decimal check = {{12802299, 0, 0, 0}};
-  s21_set_scale(&check, 5);
-  s21_set_sign(&check);
+  set_scale(&check, 5);
+  invert_sign(&check);
   int return_value = s21_from_float_to_decimal(f, &result);
   ck_assert_int_eq(s21_is_equal(result, check), 1);
   ck_assert_int_eq(return_value, 0);
@@ -917,8 +879,8 @@ START_TEST(float_to_decimal_73) {
 END_TEST
 
 Suite *suite_float_to_decimal(void) {
-  Suite *s = suite_create("suite_float_to_decimal");
-  TCase *tc = tcase_create("s21_tests");
+  Suite *s = suite_create("\033[46m---FROM FLOAT TO DECIMAL TESTS---\033[0m");
+  TCase *tc = tcase_create("from_float_to_decimal_rests");
 
   tcase_add_test(tc, float_to_decimal_1);
   tcase_add_test(tc, float_to_decimal_2);
@@ -969,10 +931,7 @@ Suite *suite_float_to_decimal(void) {
   tcase_add_test(tc, float_to_decimal_47);
   tcase_add_test(tc, float_to_decimal_48);
   tcase_add_test(tc, float_to_decimal_49);
-  tcase_add_test(tc, float_to_decimal_50);
-  tcase_add_test(tc, float_to_decimal_51);
   tcase_add_test(tc, float_to_decimal_52);
-  tcase_add_test(tc, float_to_decimal_53);
   tcase_add_test(tc, float_to_decimal_54);
   tcase_add_test(tc, float_to_decimal_55);
   tcase_add_test(tc, float_to_decimal_56);

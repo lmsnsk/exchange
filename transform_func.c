@@ -66,6 +66,47 @@ int s21_from_decimal_to_int(s21_decimal src, int *dst) {
   return error;
 }
 
+void convert_float_to_decimal(float src, s21_decimal *dst, int *error,
+                              int sign) {
+  double mantissa;
+  int exp;
+  char float_str[50];
+  sprintf(float_str, "%E", src);
+  char *exp_str = strchr(float_str, 'E');
+  exp_str += 2;
+  sscanf(exp_str, "%d", &exp);
+  float_str[8] = 0;
+  sscanf(float_str, "%lf", &mantissa);
+  if (exp > 28) {
+    *error = 1;
+  } else {
+    int counter = 0;
+    double mantissa_temp = mantissa;
+    for (int i = 0; i < 6; i++) {
+      if (mantissa_temp != (int)mantissa_temp) counter++;
+      mantissa_temp *= 10;
+    }
+    null_decimal(dst);
+    dst->bits[0] = (int)(mantissa * pow(10, counter));
+    set_scale(dst, counter);
+    if (sign) invert_sign(dst);
+
+    big_dec big_dst = from_decimal_to_big_decimal(*dst);
+    big_dec ten_big_decimal = from_int_to_big_decimal(10);
+
+    for (int i = 0; i < exp; i++) {
+      if (counter) {
+        big_set_scale(&big_dst, counter - 1);
+        counter--;
+      } else {
+        big_dst = big_mul(big_dst, ten_big_decimal);
+      }
+    }
+    *error = from_big_decimal_to_decimal(big_dst, dst);
+    if (*error) *error = 1;
+  }
+}
+
 int s21_from_float_to_decimal(float src, s21_decimal *dst) {
   int error = 0, sign = 0;
   if (src < 0) {
@@ -78,43 +119,7 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
     error = 1;
   }
   if (!error) {
-    double mantissa;
-    int exp;
-    char float_str[50];
-    sprintf(float_str, "%E", src);
-    char *exp_str = strchr(float_str, 'E');
-    exp_str += 2;
-    sscanf(exp_str, "%d", &exp);
-    float_str[8] = 0;
-    sscanf(float_str, "%lf", &mantissa);
-    printf("%d\n", exp);
-    if ((exp == 28 && mantissa > 7.922816) || exp > 28) {
-      error = 1;
-    } else {
-      int counter = 0;
-      double mantissa_temp = mantissa;
-      for (int i = 0; i < 6; i++) {
-        if (mantissa_temp != (int)mantissa_temp) counter++;
-        mantissa_temp *= 10;
-      }
-      null_decimal(dst);
-      dst->bits[0] = (int)(mantissa * pow(10, counter));
-      set_scale(dst, counter);
-      if (sign) invert_sign(dst);
-
-      big_dec big_dst = from_decimal_to_big_decimal(*dst);
-      big_dec ten_big_decimal = from_int_to_big_decimal(10);
-
-      for (int i = 0; i < exp; i++) {
-        if (counter) {
-          big_set_scale(&big_dst, counter - 1);
-          counter--;
-        } else
-          big_dst = big_mul(big_dst, ten_big_decimal);
-      }
-      error = from_big_decimal_to_decimal(big_dst, dst);
-      if (error) error = 1;
-    }
+    convert_float_to_decimal(src, dst, &error, sign);
   }
   return error;
 }

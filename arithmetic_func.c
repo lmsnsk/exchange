@@ -106,7 +106,7 @@ big_dec big_mul(big_dec big_val_1, big_dec big_val_2) {
       int res_bit = big_get_bit(big_val_1, i) * big_get_bit(big_val_2, j);
       big_set_bit(&tmp_res, j, res_bit);
     }
-    big_shift_left(&tmp_res, i);
+    for (int k = 0; k < i; k++) big_shift_left(&tmp_res, 1);
     big_summ(buffer, tmp_res, &result);
   }
   return result;
