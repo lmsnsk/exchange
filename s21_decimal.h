@@ -63,7 +63,6 @@ void big_div(big_dec *big_val_1, big_dec *big_val_2, big_dec *big_result,
              big_dec big_ten_decimal, int *scale);
 void big_div_ten(big_dec *big_result, big_dec *remainder,
                  big_dec big_ten_decimal);
-// big_dec big_reverse(big_dec value, int limit);
 void big_res_and_remainder(big_dec *big_result, big_dec delitel,
                            big_dec *remainder);
 

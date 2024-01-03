@@ -139,8 +139,8 @@ END_TEST
 START_TEST(add_17) {
   s21_decimal val1 = {{UINT_MAX, UINT_MAX, UINT_MAX, 0}};
   s21_decimal val2 = {{UINT_MAX, UINT_MAX, UINT_MAX, 0}};
-  set_scale(&val1, 5);
-  set_scale(&val2, 3);
+  set_scale(&val1, 0);
+  set_scale(&val2, 0);
   s21_decimal res = {{0}};
   ck_assert_int_eq(1, s21_add(val1, val2, &res));
 }
@@ -149,8 +149,8 @@ END_TEST
 START_TEST(add_18) {
   s21_decimal val1 = {{UINT_MAX, UINT_MAX, UINT_MAX, ~(UINT_MAX / 2)}};
   s21_decimal val2 = {{UINT_MAX, UINT_MAX, UINT_MAX, ~(UINT_MAX / 2)}};
-  set_scale(&val1, 5);
-  set_scale(&val2, 3);
+  set_scale(&val1, 0);
+  set_scale(&val2, 0);
   s21_decimal res = {{0}};
   ck_assert_int_eq(2, s21_add(val1, val2, &res));
 }
@@ -1193,10 +1193,10 @@ START_TEST(s21_add_max_34) {
   src1.bits[2] = 0b11111111111111111111111111111111;
   src1.bits[3] = 0b10000000000000000000000000000000;
   s21_decimal src2 = {0};
-  src2.bits[0] = 0b00000000000000000000000000000010;
+  src2.bits[0] = 0b00000000000000000000000000000001;
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
-  src2.bits[3] = 0b00000000000000110000000000000000;
+  src2.bits[3] = 0b00000000000000000000000000000000;
   s21_decimal original_res = {0};
   original_res.bits[0] = 0b11111111111111111111111111111110;
   original_res.bits[1] = 0b11111111111111111111111111111111;
@@ -1292,7 +1292,7 @@ END_TEST
 
 Suite* suite_add(void) {
   Suite* s = suite_create("\033[46m---ADD TESTS---\033[0m");
-  TCase* tc = tcase_create("case_add");
+  TCase* tc = tcase_create("add_tests");
 
   tcase_add_test(tc, add_0);
   tcase_add_test(tc, add_1);

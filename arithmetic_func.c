@@ -74,6 +74,7 @@ int add_and_sub_core(s21_decimal value_1, s21_decimal value_2,
         if (sign_1) big_invert_sign(&big_result);
       } else {
         big_diff(big_val_2, big_val_1, &big_result);
+        if (is_sub) big_invert_sign(&big_result);
         if (sign_2) big_invert_sign(&big_result);
       }
     }
@@ -130,16 +131,6 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
   error = from_big_decimal_to_decimal(big_result, result);
   return error;
 }
-
-// big_dec big_reverse(big_dec value, int limit) {
-//   big_dec temp;
-//   big_null_decimal(&temp);
-//   for (int i = 0; i < limit; i++) {
-//     int bit = big_get_bit(value, i);
-//     big_set_bit(&temp, (limit - 1) - i, bit);
-//   }
-//   return temp;
-// }
 
 void big_res_and_remainder(big_dec *big_result, big_dec delitel,
                            big_dec *remainder) {

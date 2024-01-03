@@ -3,14 +3,6 @@
 #include "s21_decimal.h"
 
 // int main() {
-//   s21_decimal val;
-//   float fl1 = -128.023;
-//   float fl1_res = 0;
-
-//   s21_from_float_to_decimal(fl1, &val);
-//   print_dec(val);
-//   s21_from_decimal_to_float(val, &fl1_res);
-//   printf("%f %f\n", fl1, fl1_res);
 
 //   return 0;
 // }
@@ -42,11 +34,11 @@ void print_dec(s21_decimal dec) {
   for (int i = 31; i >= 0; i--) printf("%2d|", get_bit(dec, i));
   printf("\n");
 
-  printf("\nSCALE: %d\n", get_scale(dec));
+  printf("SCALE: %d\n\n", get_scale(dec));
 }
 
 void print_big_dec(big_dec dec) {
-  printf("\n\n====== B I G   D E C I M A L ======\n");
+  printf("====== B I G   D E C I M A L ======\n");
   if (big_get_sign(dec) == 1)
     printf("%c", '-');
   else
@@ -84,5 +76,5 @@ void print_big_dec(big_dec dec) {
   for (int i = 31; i >= 0; i--) printf("%2d|", big_get_bit(dec, i));
   printf("\n");
 
-  printf("\nSCALE: %d\n", big_get_scale(dec));
+  printf("SCALE: %d\n\n", big_get_scale(dec));
 }
