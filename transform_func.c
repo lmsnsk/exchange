@@ -73,11 +73,11 @@ void convert_float_to_decimal(float src, s21_decimal *dst, int *error,
   char float_str[50];
   sprintf(float_str, "%E", src);
   char *exp_str = strchr(float_str, 'E');
-  exp_str += 2;
+  exp_str += 1;
   sscanf(exp_str, "%d", &exp);
   float_str[8] = 0;
   sscanf(float_str, "%lf", &mantissa);
-  if (exp > 28) {
+  if (exp > 28 || exp < -28) {
     *error = 1;
   } else {
     int counter = 0;
@@ -89,7 +89,6 @@ void convert_float_to_decimal(float src, s21_decimal *dst, int *error,
     null_decimal(dst);
     dst->bits[0] = (int)(mantissa * pow(10, counter));
     set_scale(dst, counter);
-    if (sign) invert_sign(dst);
 
     big_dec big_dst = from_decimal_to_big_decimal(*dst);
     big_dec ten_big_decimal = from_int_to_big_decimal(10);
@@ -102,7 +101,12 @@ void convert_float_to_decimal(float src, s21_decimal *dst, int *error,
         big_dst = big_mul(big_dst, ten_big_decimal);
       }
     }
+    if (exp < 0) {
+      unsigned scale = big_get_scale(big_dst);
+      big_set_scale(&big_dst, scale - exp);
+    }
     *error = from_big_decimal_to_decimal(big_dst, dst);
+    if (sign) invert_sign(dst);
     if (*error) *error = 1;
   }
 }

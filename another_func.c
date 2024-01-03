@@ -69,11 +69,12 @@ int s21_round(s21_decimal value, s21_decimal *result) {
       big_dec big_ten_dec = from_int_to_big_decimal(10);
       big_dec big_scale_ten_dec = big_ten_dec;
 
-      for (int i = 0; i < scale; i++) {
+      for (int i = 0; i < scale - 1; i++) {
         big_scale_ten_dec = big_mul(big_scale_ten_dec, big_ten_dec);
       }
 
       big_dec big_result = from_decimal_to_big_decimal(value);
+      if (sign) big_invert_sign(&big_result);
 
       big_dec one;
       big_dec remainder = big_result;
@@ -81,12 +82,13 @@ int s21_round(s21_decimal value, s21_decimal *result) {
       one.bits[0] = 1;
 
       big_div_ten(&big_result, &remainder, big_scale_ten_dec);
-      s21_decimal rem_small;
+      s21_decimal rem_small, half;
+      null_decimal(&half);
+      half.bits[0] = 5;
+      set_scale(&half, 1);
       from_big_decimal_to_decimal(remainder, &rem_small);
-      set_scale(&rem_small, scale);
-      s21_truncate(rem_small, &rem_small);
 
-      if ((int)rem_small.bits[0] >= 5) {
+      if (s21_is_greater_or_equal(rem_small, half)) {
         big_summ(big_result, one, &big_result);
       }
       from_big_decimal_to_decimal(big_result, result);

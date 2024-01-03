@@ -3,25 +3,14 @@
 #include "s21_decimal.h"
 
 // int main() {
-//   // float a;
-//   // s21_decimal src;
-//   // src.bits[0] = -1;
-//   // src.bits[1] = -1;
-//   // src.bits[2] = -1;
-//   // src.bits[3] = 0;
+//   s21_decimal val;
+//   float fl1 = -128.023;
+//   float fl1_res = 0;
 
-//   // set_scale(&src, 0);
-//   // // invert_sign(&src);
-
-//   // s21_from_decimal_to_float(src, &a);
-//   // printf("%f\n", a);
-
-//   s21_decimal var = {{0, 0, 0, 0}};
-//   float value = 0;
-//   s21_from_float_to_decimal(7E28, &var);
-//   print_dec(var);
-//   s21_from_decimal_to_float(var, &value);
-//   printf("%f\n", value);
+//   s21_from_float_to_decimal(fl1, &val);
+//   print_dec(val);
+//   s21_from_decimal_to_float(val, &fl1_res);
+//   printf("%f %f\n", fl1, fl1_res);
 
 //   return 0;
 // }
