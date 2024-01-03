@@ -3,6 +3,17 @@
 #include "s21_decimal.h"
 
 // int main() {
+//   s21_decimal src1 = {0};
+//   src1.bits[0] = 2;
+//   s21_decimal src2 = {0};
+//   src2.bits[0] = 10;
+
+//   s21_decimal s21_res = {0};
+//   s21_div(src1, src2, &s21_res);
+
+//   // print_dec(src1);
+//   // print_dec(src2);
+//   print_dec(s21_res);
 
 //   return 0;
 // }

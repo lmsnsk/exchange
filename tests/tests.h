@@ -16,7 +16,7 @@
 Suite* suite_add(void);
 Suite* suite_sub(void);
 Suite* suite_mul(void);
-// Suite *suite_div(void);
+Suite* suite_div(void);
 
 Suite* suite_is_less(void);
 Suite* suite_is_less_or_equal(void);

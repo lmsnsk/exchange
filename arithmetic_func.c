@@ -191,7 +191,6 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 
   if (!error && !is_decimal_zero(value_1)) {
     big_dec big_result;
-    s21_decimal ten_decimal;
     big_null_decimal(&big_result);
     int sign_1 = get_sign(value_1);
     int sign_2 = get_sign(value_2);
@@ -202,13 +201,12 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     big_dec big_val_1 = from_decimal_to_big_decimal(value_1);
     big_dec big_val_2 = from_decimal_to_big_decimal(value_2);
 
-    s21_from_int_to_decimal(10, &ten_decimal);
-    big_dec ten_big_decimal = from_decimal_to_big_decimal(ten_decimal);
+    big_dec ten_big_decimal = from_int_to_big_decimal(10);
 
     while (big_is_greater(big_val_1, big_val_2) < 0) {
-      if (scale_1 > 28) break;
       big_val_1 = big_mul(big_val_1, ten_big_decimal);
       scale_1++;
+      if (scale_1 == 28) break;
     }
 
     if (big_is_greater(big_val_1, big_val_2)) {

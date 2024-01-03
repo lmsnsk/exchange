@@ -22,7 +22,7 @@ int main(void) {
       suite_is_greater(), suite_is_greater_or_equal(), suite_is_less(),
       suite_is_less_or_equal(), suite_is_equal(), suite_is_not_equal(),
       suite_truncate(), suite_floor(), suite_round(), suite_negate(),
-      suite_add(), suite_sub(), suite_mul(), NULL};
+      suite_add(), suite_sub(), suite_mul(), suite_div(), NULL};
   for (Suite** current_testcase = list_cases; *current_testcase != NULL;
        current_testcase++) {
     run_testcase(*current_testcase);
