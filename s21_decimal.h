@@ -42,16 +42,13 @@ int check_decimal(s21_decimal value);
 float random_float(float a, float b);
 big_dec from_decimal_to_big_decimal(s21_decimal value);
 int from_big_decimal_to_decimal(big_dec value, s21_decimal *result);
-void shift_left(s21_decimal *dst, int shift);
 void big_shift_left(big_dec *dst, int shift);
 void big_normalization(big_dec *dst, int diff);
 void bank_round(big_dec *value, big_dec remainder);
 int is_big(big_dec value);
 
 // --- arithmetic functions --- //
-void summ(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 void big_summ(big_dec value_1, big_dec value_2, big_dec *result);
-void diff(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 void big_diff(big_dec value_1, big_dec value_2, big_dec *result);
 int add_and_sub_core(s21_decimal value_1, s21_decimal value_2,
                      s21_decimal *result, int check_add_or_sub);
