@@ -3,7 +3,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>  ///
+#include <string.h>
 
 #define SCALE_MASK 0xff0000
 #define MINUS_MAX_INT -2147483648
@@ -19,10 +19,6 @@ typedef struct {
 } big_dec;
 
 typedef enum { ZERO, ONE } bit_type;
-
-// TEST FUNCTIONS /////////////////////////////
-void print_dec(s21_decimal dec);
-void print_big_dec(big_dec dec);
 
 // --- support functions --- //
 void null_decimal(s21_decimal *dst);
