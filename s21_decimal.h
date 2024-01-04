@@ -56,7 +56,7 @@ void big_diff(big_dec value_1, big_dec value_2, big_dec *result);
 int add_and_sub_core(s21_decimal value_1, s21_decimal value_2,
                      s21_decimal *result, int check_add_or_sub);
 big_dec big_mul(big_dec big_val_1, big_dec big_val_2);
-void big_div(big_dec *big_val_1, big_dec *big_val_2, big_dec *big_result,
+void big_div(big_dec const *big_val_1, big_dec *big_val_2, big_dec *big_result,
              big_dec big_ten_decimal, int *scale);
 void big_div_ten(big_dec *big_result, big_dec *remainder,
                  big_dec big_ten_decimal);

@@ -1,16 +1,16 @@
 #include "s21_decimal.h"
 
 int big_is_greater(big_dec value_1, big_dec value_2) {
-  int compare = 0;
+  int comp = 0;
   for (int i = (BIG_SIZE - 1) * 32 - 1; i >= 0; i--) {
-    compare = big_get_bit(value_1, i) - big_get_bit(value_2, i);
-    if (compare) break;
+    comp = big_get_bit(value_1, i) - big_get_bit(value_2, i);
+    if (comp) break;
   }
-  return compare;
+  return comp;
 }
 
 int compare(s21_decimal value_1, s21_decimal value_2) {
-  int compare = 0;
+  int comp = 0;
   big_dec big_val_1 = from_decimal_to_big_decimal(value_1);
   big_dec big_val_2 = from_decimal_to_big_decimal(value_2);
   int sign_1 = get_sign(value_1);
@@ -18,9 +18,9 @@ int compare(s21_decimal value_1, s21_decimal value_2) {
 
   if (!is_decimal_zero(value_1) || !is_decimal_zero(value_2)) {
     if (!sign_1 && sign_2) {
-      compare = 1;
+      comp = 1;
     } else if (sign_1 && !sign_2) {
-      compare = -1;
+      comp = -1;
     } else {
       int scale_1 = get_scale(value_1);
       int scale_2 = get_scale(value_2);
@@ -30,11 +30,11 @@ int compare(s21_decimal value_1, s21_decimal value_2) {
       else if (scale_1 < scale_2)
         big_normalization(&big_val_1, scale_2 - scale_1);
 
-      compare = big_is_greater(big_val_1, big_val_2);
-      if (sign_1) compare *= -1;
+      comp = big_is_greater(big_val_1, big_val_2);
+      if (sign_1) comp *= -1;
     }
   }
-  return compare;
+  return comp;
 }
 
 int s21_is_greater(s21_decimal value_1, s21_decimal value_2) {

@@ -145,7 +145,7 @@ void big_div_ten(big_dec *big_result, big_dec *remainder,
   big_res_and_remainder(big_result, big_ten_decimal, remainder);
 }
 
-void big_div(big_dec *big_val_1, big_dec *big_val_2, big_dec *big_result,
+void big_div(big_dec const *big_val_1, big_dec *big_val_2, big_dec *big_result,
              big_dec big_ten_decimal, int *scale) {
   big_dec remainder = *big_val_1;
 
