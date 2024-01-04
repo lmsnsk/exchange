@@ -117,8 +117,7 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
     src = -src;
     sign = 1;
   }
-  if (src != src || src > 2E96) error = 1;
-  if (src < 1E-28 && src != 0) {
+  if ((src < 1E-28 && src != 0) || src != src || src > 2E96) {
     null_decimal(dst);
     error = 1;
   }

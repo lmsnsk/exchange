@@ -43,6 +43,7 @@ void set_scale(s21_decimal *dst, unsigned scale);
 void big_set_scale(big_dec *dst, unsigned scale);
 int check_parity(int *value, int offset);
 int check_decimal(s21_decimal value);
+float random_float(float a, float b);
 big_dec from_decimal_to_big_decimal(s21_decimal value);
 int from_big_decimal_to_decimal(big_dec value, s21_decimal *result);
 void shift_left(s21_decimal *dst, int shift);

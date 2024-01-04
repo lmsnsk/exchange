@@ -3,9 +3,6 @@
 
 #include <check.h>
 #include <limits.h>
-#include <stdbool.h>
-#include <time.h>
-#include <unistd.h>
 
 #include "../s21_decimal.h"
 

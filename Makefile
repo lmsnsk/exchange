@@ -20,13 +20,13 @@ else
 endif
 
 
-# all: clean $(FILE).a test gcov_report
+all: clean $(FILE).a gcov_report
 
 ########################################
-all: temp
+# all: temp
 
-temp:
-	$(CC) -fsanitize=address -g *.c $(TESTFLAGS)
+# temp:
+# $(CC) -fsanitize=address -g *.c $(TESTFLAGS)
 ########################################
 
 o_files:

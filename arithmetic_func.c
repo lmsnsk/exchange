@@ -1,15 +1,5 @@
 #include "s21_decimal.h"
 
-void summ(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-  int memory = 0;
-  for (int i = 0; i < 3 * 32; i++) {
-    unsigned res = get_bit(value_1, i) + get_bit(value_2, i) + memory;
-    memory = res / 2;
-    res %= 2;
-    set_bit(result, i, res);
-  }
-}
-
 void big_summ(big_dec value_1, big_dec value_2, big_dec *result) {
   int memory = 0;
   for (int i = 0; i < (BIG_SIZE - 1) * 32; i++) {
@@ -17,17 +7,6 @@ void big_summ(big_dec value_1, big_dec value_2, big_dec *result) {
     memory = res / 2;
     res %= 2;
     big_set_bit(result, i, res);
-  }
-}
-
-void diff(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-  int memory = 0;
-  for (int i = 0; i < 3 * 32; i++) {
-    int res = get_bit(value_1, i) - get_bit(value_2, i) - memory;
-    memory = res < 0 ? 1 : 0;
-    res %= 2;
-
-    set_bit(result, i, res);
   }
 }
 

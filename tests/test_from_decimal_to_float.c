@@ -32,25 +32,25 @@ START_TEST(from_decimal_to_float_2) {
 }
 END_TEST
 
-// START_TEST(from_decimal_to_float_3) {
-//   float n = s21_rand_r(-8388608, 8388608);
-//   s21_decimal var = {{0, 0, 0, 0}};
-//   float value = 0;
-//   s21_from_float_to_decimal(n, &var);
-//   s21_from_decimal_to_float(var, &value);
-//   ck_assert_float_eq_tol(n, value, 10);
-// }
-// END_TEST
+START_TEST(from_decimal_to_float_3) {
+  float n = random_float(-8388609, 8388608);
+  s21_decimal var = {{0, 0, 0, 0}};
+  float value = 0;
+  s21_from_float_to_decimal(n, &var);
+  s21_from_decimal_to_float(var, &value);
+  ck_assert_float_eq_tol(n, value, 10);
+}
+END_TEST
 
-// START_TEST(from_decimal_to_float_4) {
-//   float n = s21_rand_r(-1e-6 / 3, 1e-6 / 3);
-//   s21_decimal var = {{0, 0, 0, 0}};
-//   float value = 0;
-//   s21_from_float_to_decimal(n, &var);
-//   s21_from_decimal_to_float(var, &value);
-//   ck_assert_float_eq_tol(n, value, 10);
-// }
-// END_TEST
+START_TEST(from_decimal_to_float_4) {
+  float n = random_float(-1e-6 / 3, 1e-6 / 3);
+  s21_decimal var = {{0, 0, 0, 0}};
+  float value = 0;
+  s21_from_float_to_decimal(n, &var);
+  s21_from_decimal_to_float(var, &value);
+  ck_assert_float_eq_tol(n, value, 10);
+}
+END_TEST
 
 START_TEST(s21_from_decimal_to_float_1) {
   s21_decimal var = {0};
@@ -61,25 +61,25 @@ START_TEST(s21_from_decimal_to_float_1) {
 }
 END_TEST
 
-// START_TEST(s21_from_decimal_to_float_2) {
-//   float n = s21_rand_r(-8388608, 8388608);
-//   s21_decimal var = {0};
-//   float value = 0;
-//   s21_from_float_to_decimal(n, &var);
-//   s21_from_decimal_to_float(var, &value);
-//   ck_assert_float_eq_tol(n, value, 10);
-// }
-// END_TEST
+START_TEST(s21_from_decimal_to_float_2) {
+  float n = random_float(-8388608, 8388608);
+  s21_decimal var = {0};
+  float value = 0;
+  s21_from_float_to_decimal(n, &var);
+  s21_from_decimal_to_float(var, &value);
+  ck_assert_float_eq_tol(n, value, 10);
+}
+END_TEST
 
-// START_TEST(s21_from_decimal_to_float_3) {
-//   float n = s21_rand_r(-1e-6 / 3, 1e-6 / 3);
-//   s21_decimal var = {0};
-//   float value = 0;
-//   s21_from_float_to_decimal(n, &var);
-//   s21_from_decimal_to_float(var, &value);
-//   ck_assert_float_eq_tol(n, value, 10);
-// }
-// END_TEST
+START_TEST(s21_from_decimal_to_float_3) {
+  float n = random_float(-1e-6 / 3, 1e-6 / 3);
+  s21_decimal var = {0};
+  float value = 0;
+  s21_from_float_to_decimal(n, &var);
+  s21_from_decimal_to_float(var, &value);
+  ck_assert_float_eq_tol(n, value, 10);
+}
+END_TEST
 
 START_TEST(s21_from_decimal_to_float_4) {
   s21_decimal value = {{1812, 0, 0, 0}};
@@ -145,11 +145,11 @@ Suite *suite_from_decimal_to_float(void) {
   tcase_add_test(tc, from_decimal_to_float_0);
   tcase_add_test(tc, from_decimal_to_float_1);
   tcase_add_test(tc, from_decimal_to_float_2);
-  // tcase_add_loop_test(tc, from_decimal_to_float_3, 0, 100);
-  // tcase_add_loop_test(tc, from_decimal_to_float_4, 0, 100);
+  tcase_add_loop_test(tc, from_decimal_to_float_3, 0, 100);
+  tcase_add_loop_test(tc, from_decimal_to_float_4, 0, 100);
   tcase_add_test(tc, s21_from_decimal_to_float_1);
-  // tcase_add_loop_test(tc, s21_from_decimal_to_float_2, 0, 100);
-  // tcase_add_loop_test(tc, s21_from_decimal_to_float_3, 0, 100);
+  tcase_add_loop_test(tc, s21_from_decimal_to_float_2, 0, 100);
+  tcase_add_loop_test(tc, s21_from_decimal_to_float_3, 0, 100);
   tcase_add_test(tc, s21_from_decimal_to_float_4);
   tcase_add_test(tc, s21_from_decimal_to_float_5);
   tcase_add_test(tc, s21_from_decimal_to_float_6);

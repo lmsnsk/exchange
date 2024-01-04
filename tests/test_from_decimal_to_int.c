@@ -1,7 +1,5 @@
 #include "tests.h"
-#define EXPONENT_PLUS_1 65536
 
-#define EXPONENT_PLUS_28 1835008
 START_TEST(from_decimal_to_int_0) {
   s21_decimal val = {{123456789, 0, 0, 0}};
   set_scale(&val, 5);
@@ -205,7 +203,7 @@ START_TEST(s21_test_from_decimal_to_int_11) {
 END_TEST
 
 START_TEST(s21_test_from_decimal_to_int_14) {
-  s21_decimal a = {{INT_MAX, 0, 0, EXPONENT_PLUS_28}};
+  s21_decimal a = {{INT_MAX, 0, 0, 1835008}};
   check = 0;  // (int)(INT_MAX / 10^28)
   code = s21_from_decimal_to_int(a, &result);
   ck_assert_int_eq(result, check);

@@ -104,6 +104,14 @@ START_TEST(div_9) {
 }
 END_TEST
 
+START_TEST(div_10) {
+  s21_decimal val1 = {{2, 0, 0, 0}};
+  s21_decimal val2 = {{10, 0, 0, 0}};
+  s21_decimal res = {{0}};
+  ck_assert_int_eq(0, s21_div(val1, val2, &res));
+}
+END_TEST
+
 Suite *suite_div(void) {
   Suite *s = suite_create("\033[46m---DIV TESTS---\033[0m");
   TCase *tc = tcase_create("div_tests");
@@ -118,6 +126,7 @@ Suite *suite_div(void) {
   tcase_add_test(tc, div_7);
   tcase_add_test(tc, div_8);
   tcase_add_test(tc, div_9);
+  tcase_add_test(tc, div_10);
 
   suite_add_tcase(s, tc);
   return s;

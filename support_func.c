@@ -174,7 +174,6 @@ int check_parity(int *value, int offset) {
   return error;
 }
 
-// Возвращает 1, если 0-15 или 24-30 биты bits[3] содержат не нули, иначе - 0
 int check_decimal(s21_decimal value) {
   int error = check_parity(&value.bits[3], 16);
   if (!error) {
@@ -182,6 +181,12 @@ int check_decimal(s21_decimal value) {
     error = check_parity(&value.bits[3], 7);
   }
   return error;
+}
+
+float random_float(float a, float b) {
+  float m = (float)rand() / RAND_MAX;
+  float num = a + m * (b - a);
+  return num;
 }
 
 big_dec from_decimal_to_big_decimal(s21_decimal value) {
@@ -240,16 +245,6 @@ int from_big_decimal_to_decimal(big_dec value, s21_decimal *result) {
     result->bits[3] = big_result.bits[BIG_SIZE - 1];
   }
   return error;
-}
-
-void shift_left(s21_decimal *dst, int shift) {
-  unsigned mem = 0;
-  for (int i = 0; i < 3; i++) {
-    unsigned tmp = dst->bits[i];
-    dst->bits[i] <<= shift;
-    dst->bits[i] |= mem;
-    mem = tmp >> (32 - shift);
-  }
 }
 
 void big_shift_left(big_dec *dst, int shift) {
