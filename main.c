@@ -3,17 +3,13 @@
 #include "s21_decimal.h"
 
 // int main() {
-//   s21_decimal src1 = {0};
-//   src1.bits[0] = 2;
-//   s21_decimal src2 = {0};
-//   src2.bits[0] = 10;
-
-//   s21_decimal s21_res = {0};
-//   s21_div(src1, src2, &s21_res);
-
-//   // print_dec(src1);
-//   // print_dec(src2);
-//   print_dec(s21_res);
+//   s21_decimal val1 = {{0}};
+//   s21_decimal val2 = {{0}};
+//   set_bit(&val1, 127, 1);
+//   int a = s21_is_greater_or_equal(val1, val2);
+//   print_dec(val1);
+//   print_dec(val2);
+//   printf("%d\n", a);
 
 //   return 0;
 // }
