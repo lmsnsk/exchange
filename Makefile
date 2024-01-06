@@ -1,5 +1,4 @@
-# FLAGS=-Wall -Werror -Wextra -std=c11
-FLAGS=-Wall -Wextra -std=c11
+FLAGS=-Wall -Werror -Wextra -std=c11
 CC=gcc $(FLAGS)
 FILE=s21_decimal
 FILETEST=tests/*
@@ -21,13 +20,6 @@ endif
 
 
 all: clean $(FILE).a gcov_report
-
-########################################
-# all: temp
-
-# temp:
-# $(CC) -fsanitize=address -g *.c $(TESTFLAGS)
-########################################
 
 o_files:
 	$(CC) -c *.c
